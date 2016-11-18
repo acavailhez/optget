@@ -1,0 +1,57 @@
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+
+    sourceSets {
+        main {
+            java { srcDirs = ["src"] }
+            resources { srcDirs = ["resources"] }
+        }
+        test {
+            java { srcDirs = [] }
+            groovy { srcDirs = ["test"] }
+            resources { srcDirs = ["test-resources"] }
+        }
+    }
+
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+dependencies {
+
+    compile 'log4j:log4j:1.2.17'
+    compile 'org.slf4j:slf4j-log4j12:1.7.21'
+
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.6'
+    testCompile 'junit:junit:4.11'
+}
+
+project(':scripts') {
+
+
+    sourceSets {
+        main {
+            java { srcDirs = [] } // everything compiled with groovy
+            groovy { srcDirs = ["src"] }
+            resources { srcDirs = ["resources"] }
+        }
+        test {
+            java { srcDirs = ["test"] }
+            groovy { srcDirs = ["test"] }
+            resources { srcDirs = ["test-resources"] }
+        }
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy-all:2.4.6'
+        compile 'log4j:log4j:1.2.17'
+        compile 'org.slf4j:slf4j-api:1.7.21'
+    }
+}

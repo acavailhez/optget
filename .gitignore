@@ -1,0 +1,21 @@
+**/target
+**/.settings
+
+# GRADLE IGNORES
+**/.gradle
+gradle/*
+**/build
+**/.idea
+**/*.iml
+gradlew
+gradlew.bat
+gradle/wrapper/
+
+
+**/*.iws
+**/*.log
+**/*.log.*
+**/deploy/
+**/atlassian-ide-plugin.xml
+**/out
+
