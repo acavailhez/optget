@@ -10,17 +10,21 @@ public class OptGetMap implements Map<String, Object>, OptGet {
 
     private final Map<String, Object> map;
 
-    public OptGetMap(Map<String, Object> map) {
+    public OptGetMap(Map map) {
         if (map != null) {
-            this.map = map;
+            this.map = new HashMap<>();
+            for (Object o : map.entrySet()) {
+                Map.Entry entry = (Map.Entry) o;
+                this.map.put(entry.getKey().toString(), entry.getValue());
+            }
         } else {
             this.map = new HashMap<>();
         }
     }
 
     @Override
-    public void onMissingKey(Object key, Class classToCast) {
-        throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast);
+    public void onMissingKey(String key, Class classToCast) {
+        throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast.getName());
     }
 
     @Override
@@ -51,8 +55,9 @@ public class OptGetMap implements Map<String, Object>, OptGet {
     }
 
     @Override
+    // Here we do not proxy to map, we use the OptGet instead
     public Object get(Object key) {
-        return map.get(key);
+        return OptGet.super.get(key);
     }
 
     @Override

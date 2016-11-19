@@ -41,6 +41,79 @@ public class GetOptTests extends AbstractTests {
         assert map.opt('z', String, "test") == "test"
     }
 
+
+    @Test
+    public void list() {
+        OptGetMap optget = new OptGetMap([
+                a: [1, 2, 3, 4, 5]
+        ])
+
+        List<Long> list = optget.getListLong('a')
+        assert list.size() == 5
+        assert list[2] == 3L
+        assert list[2].class == Long.class
+
+        List<Integer> list2 = optget.getListInteger('a')
+        assert list2.size() == 5
+        assert list2[2] == 3
+        assert list2[2].class == Integer.class
+
+        List<String> list3 = optget.getListString('a')
+        assert list3.size() == 5
+        assert list3[2] == "3"
+
+    }
+
+    @Test
+    public void listWithCast() {
+        OptGetMap optget = new OptGetMap([
+                a: ['1', '2', '3', 4, 5]
+        ])
+
+        List<Integer> list2 = optget.getListInteger('a')
+        assert list2.size() == 5
+        assert list2[2] == 3
+        assert list2[2].class == Integer.class
+
+    }
+
+    @Test
+    public void listWithEnumCast() {
+        OptGetMap optget = new OptGetMap([
+                a: [Bootstrap4Color.DANGER, 'PRIMARY']
+        ])
+
+        List<Bootstrap4Color> list2 = optget.getListEnum('a', Bootstrap4Color)
+        assert list2.size() == 2
+        assert list2[0] == Bootstrap4Color.DANGER
+        assert list2[1] == Bootstrap4Color.PRIMARY
+
+    }
+
+    @Test
+    public void map() {
+        OptGetMap optget = new OptGetMap([
+                a: [1: 'one', 2: 'two', 3: 'three']
+        ])
+
+        Map<Integer, String> map = optget.getMapIntegerString('a')
+        assert map.size() == 3
+        assert map[2] == 'two'
+
+        Map<String, String> map2 = optget.getMapStringString('a')
+        assert map2.size() == 3
+        assert map2['2'] == 'two'
+
+        OptGet map3 = optget.getOptGet('a')
+        assert map3.getString('1') == 'one'
+        assert map3.getString(1) == 'one'
+
+
+        OptGetMap map4 = optget.getOptGetMap('a')
+        assert map4.getString('1') == 'one'
+        assert map4.getString(1) == 'one'
+    }
+
     @Test
     public void cast() {
 

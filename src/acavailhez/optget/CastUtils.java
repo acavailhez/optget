@@ -27,6 +27,8 @@ public class CastUtils {
             return (T) castToByte(unknown);
         } else if (target.isEnum()) {
             return castToEnum(unknown, target);
+        } else if (OptGetMap.class.isAssignableFrom(target)) {
+            return (T) castToOptGetMap(unknown);
         } else if (OptGet.class.isAssignableFrom(target)) {
             return (T) castToOptGet(unknown);
         }
@@ -59,8 +61,18 @@ public class CastUtils {
         if (unknown instanceof Map) {
             return new OptGetMap((Map) unknown);
         }
-        // Wrap the object directly, accessing its fields
+        // Last resort, wrap the object directly, accessing its fields
         return new OptGetWrapper(unknown);
+    }
+
+    public static OptGetMap castToOptGetMap(Object unknown) {
+        if (unknown instanceof OptGetMap) {
+            return (OptGetMap) unknown;
+        }
+        if (unknown instanceof Map) {
+            return new OptGetMap((Map) unknown);
+        }
+        throw new IllegalArgumentException("Cannot wrap object of class:" + unknown.getClass() + " to OptGetMap");
     }
 
     public static Integer castToInteger(Object unknown) {

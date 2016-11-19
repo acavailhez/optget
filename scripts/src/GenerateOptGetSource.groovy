@@ -1,4 +1,5 @@
 import acavailhez.optget.OptGet
+import acavailhez.optget.OptGetMap
 import org.apache.log4j.BasicConfigurator
 import org.apache.log4j.Logger
 
@@ -20,6 +21,7 @@ class GenerateOptGetSource {
         SHORTCUT_CLASSES.add(Float.class)
         SHORTCUT_CLASSES.add(Double.class)
         SHORTCUT_CLASSES.add(OptGet.class)
+        SHORTCUT_CLASSES.add(OptGetMap.class)
 
         MAP_KEY_CLASSES.add(String.class)
         MAP_KEY_CLASSES.add(Integer.class)
@@ -45,14 +47,21 @@ class GenerateOptGetSource {
         String simpleShortcuts = ""
         SHORTCUT_CLASSES.each { Class classToCast ->
             String name = classToCast.getSimpleName()
+
             simpleShortcuts += """
-    default ${name} opt${name}(String key) {
+    default ${name} opt${name}(Object key) {
         return opt(key, ${name}.class);
     }"""
             simpleShortcuts += System.lineSeparator()
 
             simpleShortcuts += """
-    default ${name} get${name}(String key) {
+    default ${name} opt${name}(Object key, ${name} defaultValue) {
+        return opt(key, ${name}.class, defaultValue);
+    }"""
+            simpleShortcuts += System.lineSeparator()
+
+            simpleShortcuts += """
+    default ${name} get${name}(Object key) {
         return get(key, ${name}.class);
     }"""
             simpleShortcuts += System.lineSeparator()
@@ -66,13 +75,13 @@ class GenerateOptGetSource {
         SHORTCUT_CLASSES.each { Class classToCast ->
             String name = classToCast.getSimpleName()
             listShortcuts += """
-    default List<${name}> optList${name}(String key) {
+    default List<${name}> optList${name}(Object key) {
         return optList(key, ${name}.class);
     }"""
             listShortcuts += System.lineSeparator()
 
             listShortcuts += """
-    default List<${name}> getList${name}(String key) {
+    default List<${name}> getList${name}(Object key) {
         return getList(key, ${name}.class);
     }"""
             listShortcuts += System.lineSeparator()
@@ -88,13 +97,13 @@ class GenerateOptGetSource {
             SHORTCUT_CLASSES.each { Class valueToCast ->
                 String value = valueToCast.getSimpleName()
                 mapShortcuts += """
-    default Map<${key},${value}> optMap${key}${value}(String key) {
+    default Map<${key},${value}> optMap${key}${value}(Object key) {
         return optMap(key, ${key}.class, ${value}.class);
     }"""
                 mapShortcuts += System.lineSeparator()
 
                 mapShortcuts += """
-    default Map<${key},${value}> getMap${key}${value}(String key) {
+    default Map<${key},${value}> getMap${key}${value}(Object key) {
         return getMap(key, ${key}.class, ${value}.class);
     }"""
 
@@ -104,13 +113,13 @@ class GenerateOptGetSource {
             // add ENUM
 
             mapShortcuts += """
-    default <ENUM extends Enum> Map<${key},ENUM> optMap${key}Enum(String key, Class<ENUM> enumClass) {
+    default <ENUM extends Enum> Map<${key},ENUM> optMap${key}Enum(Object key, Class<ENUM> enumClass) {
         return optMap(key, ${key}.class, enumClass);
     }"""
             mapShortcuts += System.lineSeparator()
 
             mapShortcuts += """
-    default <ENUM extends Enum> Map<${key},ENUM>  getMap${key}Enum(String key, Class<ENUM> enumClass) {
+    default <ENUM extends Enum> Map<${key},ENUM>  getMap${key}Enum(Object key, Class<ENUM> enumClass) {
         return getMap(key, ${key}.class, enumClass);
     }"""
 
