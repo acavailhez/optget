@@ -1,7 +1,6 @@
 package acavailhez.optget;
 
 
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,8 +88,7 @@ public interface OptGet {
 
     // Simple shortcuts
 
-    
-    default String optString(Object key) {
+        default String optString(Object key) {
         return opt(key, String.class);
     }
 
@@ -199,6 +197,7 @@ public interface OptGet {
     }
 
 
+
     default <ENUM extends Enum> ENUM optEnum(Object key, Class<ENUM> enumClass) {
         return opt(key, enumClass);
     }
@@ -238,8 +237,7 @@ public interface OptGet {
         return value;
     }
 
-    
-    default List<String> optListString(Object key) {
+        default List<String> optListString(Object key) {
         return optList(key, String.class);
     }
 
@@ -312,6 +310,7 @@ public interface OptGet {
     }
 
 
+
     default <ENUM extends Enum> List<ENUM> optListEnum(Object key, Class<ENUM> enumClass) {
         return optList(key, enumClass);
     }
@@ -348,405 +347,365 @@ public interface OptGet {
         return mapCasted;
     }
 
-    
-    default Map<String,String> optMapStringString(Object key) {
+        default Map<String, String> optMapStringString(Object key) {
         return optMap(key, String.class, String.class);
     }
 
-    default Map<String,String> getMapStringString(Object key) {
+    default Map<String, String> getMapStringString(Object key) {
         return getMap(key, String.class, String.class);
     }
 
-    default Map<String,Byte> optMapStringByte(Object key) {
+    default Map<String, Byte> optMapStringByte(Object key) {
         return optMap(key, String.class, Byte.class);
     }
 
-    default Map<String,Byte> getMapStringByte(Object key) {
+    default Map<String, Byte> getMapStringByte(Object key) {
         return getMap(key, String.class, Byte.class);
     }
 
-    default Map<String,Short> optMapStringShort(Object key) {
+    default Map<String, Short> optMapStringShort(Object key) {
         return optMap(key, String.class, Short.class);
     }
 
-    default Map<String,Short> getMapStringShort(Object key) {
+    default Map<String, Short> getMapStringShort(Object key) {
         return getMap(key, String.class, Short.class);
     }
 
-    default Map<String,Integer> optMapStringInteger(Object key) {
+    default Map<String, Integer> optMapStringInteger(Object key) {
         return optMap(key, String.class, Integer.class);
     }
 
-    default Map<String,Integer> getMapStringInteger(Object key) {
+    default Map<String, Integer> getMapStringInteger(Object key) {
         return getMap(key, String.class, Integer.class);
     }
 
-    default Map<String,Long> optMapStringLong(Object key) {
+    default Map<String, Long> optMapStringLong(Object key) {
         return optMap(key, String.class, Long.class);
     }
 
-    default Map<String,Long> getMapStringLong(Object key) {
+    default Map<String, Long> getMapStringLong(Object key) {
         return getMap(key, String.class, Long.class);
     }
 
-    default Map<String,Float> optMapStringFloat(Object key) {
+    default Map<String, Float> optMapStringFloat(Object key) {
         return optMap(key, String.class, Float.class);
     }
 
-    default Map<String,Float> getMapStringFloat(Object key) {
+    default Map<String, Float> getMapStringFloat(Object key) {
         return getMap(key, String.class, Float.class);
     }
 
-    default Map<String,Double> optMapStringDouble(Object key) {
+    default Map<String, Double> optMapStringDouble(Object key) {
         return optMap(key, String.class, Double.class);
     }
 
-    default Map<String,Double> getMapStringDouble(Object key) {
+    default Map<String, Double> getMapStringDouble(Object key) {
         return getMap(key, String.class, Double.class);
     }
 
-    default Map<String,OptGet> optMapStringOptGet(Object key) {
+    default Map<String, OptGet> optMapStringOptGet(Object key) {
         return optMap(key, String.class, OptGet.class);
     }
 
-    default Map<String,OptGet> getMapStringOptGet(Object key) {
+    default Map<String, OptGet> getMapStringOptGet(Object key) {
         return getMap(key, String.class, OptGet.class);
     }
 
-    default Map<String,OptGetMap> optMapStringOptGetMap(Object key) {
+    default Map<String, OptGetMap> optMapStringOptGetMap(Object key) {
         return optMap(key, String.class, OptGetMap.class);
     }
 
-    default Map<String,OptGetMap> getMapStringOptGetMap(Object key) {
+    default Map<String, OptGetMap> getMapStringOptGetMap(Object key) {
         return getMap(key, String.class, OptGetMap.class);
     }
 
-    default <ENUM extends Enum> Map<String,ENUM> optMapStringEnum(Object key, Class<ENUM> enumClass) {
-        return optMap(key, String.class, enumClass);
-    }
-
-    default <ENUM extends Enum> Map<String,ENUM>  getMapStringEnum(Object key, Class<ENUM> enumClass) {
-        return getMap(key, String.class, enumClass);
-    }
-
-    default Map<Integer,String> optMapIntegerString(Object key) {
+    default Map<Integer, String> optMapIntegerString(Object key) {
         return optMap(key, Integer.class, String.class);
     }
 
-    default Map<Integer,String> getMapIntegerString(Object key) {
+    default Map<Integer, String> getMapIntegerString(Object key) {
         return getMap(key, Integer.class, String.class);
     }
 
-    default Map<Integer,Byte> optMapIntegerByte(Object key) {
+    default Map<Integer, Byte> optMapIntegerByte(Object key) {
         return optMap(key, Integer.class, Byte.class);
     }
 
-    default Map<Integer,Byte> getMapIntegerByte(Object key) {
+    default Map<Integer, Byte> getMapIntegerByte(Object key) {
         return getMap(key, Integer.class, Byte.class);
     }
 
-    default Map<Integer,Short> optMapIntegerShort(Object key) {
+    default Map<Integer, Short> optMapIntegerShort(Object key) {
         return optMap(key, Integer.class, Short.class);
     }
 
-    default Map<Integer,Short> getMapIntegerShort(Object key) {
+    default Map<Integer, Short> getMapIntegerShort(Object key) {
         return getMap(key, Integer.class, Short.class);
     }
 
-    default Map<Integer,Integer> optMapIntegerInteger(Object key) {
+    default Map<Integer, Integer> optMapIntegerInteger(Object key) {
         return optMap(key, Integer.class, Integer.class);
     }
 
-    default Map<Integer,Integer> getMapIntegerInteger(Object key) {
+    default Map<Integer, Integer> getMapIntegerInteger(Object key) {
         return getMap(key, Integer.class, Integer.class);
     }
 
-    default Map<Integer,Long> optMapIntegerLong(Object key) {
+    default Map<Integer, Long> optMapIntegerLong(Object key) {
         return optMap(key, Integer.class, Long.class);
     }
 
-    default Map<Integer,Long> getMapIntegerLong(Object key) {
+    default Map<Integer, Long> getMapIntegerLong(Object key) {
         return getMap(key, Integer.class, Long.class);
     }
 
-    default Map<Integer,Float> optMapIntegerFloat(Object key) {
+    default Map<Integer, Float> optMapIntegerFloat(Object key) {
         return optMap(key, Integer.class, Float.class);
     }
 
-    default Map<Integer,Float> getMapIntegerFloat(Object key) {
+    default Map<Integer, Float> getMapIntegerFloat(Object key) {
         return getMap(key, Integer.class, Float.class);
     }
 
-    default Map<Integer,Double> optMapIntegerDouble(Object key) {
+    default Map<Integer, Double> optMapIntegerDouble(Object key) {
         return optMap(key, Integer.class, Double.class);
     }
 
-    default Map<Integer,Double> getMapIntegerDouble(Object key) {
+    default Map<Integer, Double> getMapIntegerDouble(Object key) {
         return getMap(key, Integer.class, Double.class);
     }
 
-    default Map<Integer,OptGet> optMapIntegerOptGet(Object key) {
+    default Map<Integer, OptGet> optMapIntegerOptGet(Object key) {
         return optMap(key, Integer.class, OptGet.class);
     }
 
-    default Map<Integer,OptGet> getMapIntegerOptGet(Object key) {
+    default Map<Integer, OptGet> getMapIntegerOptGet(Object key) {
         return getMap(key, Integer.class, OptGet.class);
     }
 
-    default Map<Integer,OptGetMap> optMapIntegerOptGetMap(Object key) {
+    default Map<Integer, OptGetMap> optMapIntegerOptGetMap(Object key) {
         return optMap(key, Integer.class, OptGetMap.class);
     }
 
-    default Map<Integer,OptGetMap> getMapIntegerOptGetMap(Object key) {
+    default Map<Integer, OptGetMap> getMapIntegerOptGetMap(Object key) {
         return getMap(key, Integer.class, OptGetMap.class);
     }
 
-    default <ENUM extends Enum> Map<Integer,ENUM> optMapIntegerEnum(Object key, Class<ENUM> enumClass) {
-        return optMap(key, Integer.class, enumClass);
-    }
-
-    default <ENUM extends Enum> Map<Integer,ENUM>  getMapIntegerEnum(Object key, Class<ENUM> enumClass) {
-        return getMap(key, Integer.class, enumClass);
-    }
-
-    default Map<Long,String> optMapLongString(Object key) {
+    default Map<Long, String> optMapLongString(Object key) {
         return optMap(key, Long.class, String.class);
     }
 
-    default Map<Long,String> getMapLongString(Object key) {
+    default Map<Long, String> getMapLongString(Object key) {
         return getMap(key, Long.class, String.class);
     }
 
-    default Map<Long,Byte> optMapLongByte(Object key) {
+    default Map<Long, Byte> optMapLongByte(Object key) {
         return optMap(key, Long.class, Byte.class);
     }
 
-    default Map<Long,Byte> getMapLongByte(Object key) {
+    default Map<Long, Byte> getMapLongByte(Object key) {
         return getMap(key, Long.class, Byte.class);
     }
 
-    default Map<Long,Short> optMapLongShort(Object key) {
+    default Map<Long, Short> optMapLongShort(Object key) {
         return optMap(key, Long.class, Short.class);
     }
 
-    default Map<Long,Short> getMapLongShort(Object key) {
+    default Map<Long, Short> getMapLongShort(Object key) {
         return getMap(key, Long.class, Short.class);
     }
 
-    default Map<Long,Integer> optMapLongInteger(Object key) {
+    default Map<Long, Integer> optMapLongInteger(Object key) {
         return optMap(key, Long.class, Integer.class);
     }
 
-    default Map<Long,Integer> getMapLongInteger(Object key) {
+    default Map<Long, Integer> getMapLongInteger(Object key) {
         return getMap(key, Long.class, Integer.class);
     }
 
-    default Map<Long,Long> optMapLongLong(Object key) {
+    default Map<Long, Long> optMapLongLong(Object key) {
         return optMap(key, Long.class, Long.class);
     }
 
-    default Map<Long,Long> getMapLongLong(Object key) {
+    default Map<Long, Long> getMapLongLong(Object key) {
         return getMap(key, Long.class, Long.class);
     }
 
-    default Map<Long,Float> optMapLongFloat(Object key) {
+    default Map<Long, Float> optMapLongFloat(Object key) {
         return optMap(key, Long.class, Float.class);
     }
 
-    default Map<Long,Float> getMapLongFloat(Object key) {
+    default Map<Long, Float> getMapLongFloat(Object key) {
         return getMap(key, Long.class, Float.class);
     }
 
-    default Map<Long,Double> optMapLongDouble(Object key) {
+    default Map<Long, Double> optMapLongDouble(Object key) {
         return optMap(key, Long.class, Double.class);
     }
 
-    default Map<Long,Double> getMapLongDouble(Object key) {
+    default Map<Long, Double> getMapLongDouble(Object key) {
         return getMap(key, Long.class, Double.class);
     }
 
-    default Map<Long,OptGet> optMapLongOptGet(Object key) {
+    default Map<Long, OptGet> optMapLongOptGet(Object key) {
         return optMap(key, Long.class, OptGet.class);
     }
 
-    default Map<Long,OptGet> getMapLongOptGet(Object key) {
+    default Map<Long, OptGet> getMapLongOptGet(Object key) {
         return getMap(key, Long.class, OptGet.class);
     }
 
-    default Map<Long,OptGetMap> optMapLongOptGetMap(Object key) {
+    default Map<Long, OptGetMap> optMapLongOptGetMap(Object key) {
         return optMap(key, Long.class, OptGetMap.class);
     }
 
-    default Map<Long,OptGetMap> getMapLongOptGetMap(Object key) {
+    default Map<Long, OptGetMap> getMapLongOptGetMap(Object key) {
         return getMap(key, Long.class, OptGetMap.class);
     }
 
-    default <ENUM extends Enum> Map<Long,ENUM> optMapLongEnum(Object key, Class<ENUM> enumClass) {
-        return optMap(key, Long.class, enumClass);
-    }
-
-    default <ENUM extends Enum> Map<Long,ENUM>  getMapLongEnum(Object key, Class<ENUM> enumClass) {
-        return getMap(key, Long.class, enumClass);
-    }
-
-    default Map<Float,String> optMapFloatString(Object key) {
+    default Map<Float, String> optMapFloatString(Object key) {
         return optMap(key, Float.class, String.class);
     }
 
-    default Map<Float,String> getMapFloatString(Object key) {
+    default Map<Float, String> getMapFloatString(Object key) {
         return getMap(key, Float.class, String.class);
     }
 
-    default Map<Float,Byte> optMapFloatByte(Object key) {
+    default Map<Float, Byte> optMapFloatByte(Object key) {
         return optMap(key, Float.class, Byte.class);
     }
 
-    default Map<Float,Byte> getMapFloatByte(Object key) {
+    default Map<Float, Byte> getMapFloatByte(Object key) {
         return getMap(key, Float.class, Byte.class);
     }
 
-    default Map<Float,Short> optMapFloatShort(Object key) {
+    default Map<Float, Short> optMapFloatShort(Object key) {
         return optMap(key, Float.class, Short.class);
     }
 
-    default Map<Float,Short> getMapFloatShort(Object key) {
+    default Map<Float, Short> getMapFloatShort(Object key) {
         return getMap(key, Float.class, Short.class);
     }
 
-    default Map<Float,Integer> optMapFloatInteger(Object key) {
+    default Map<Float, Integer> optMapFloatInteger(Object key) {
         return optMap(key, Float.class, Integer.class);
     }
 
-    default Map<Float,Integer> getMapFloatInteger(Object key) {
+    default Map<Float, Integer> getMapFloatInteger(Object key) {
         return getMap(key, Float.class, Integer.class);
     }
 
-    default Map<Float,Long> optMapFloatLong(Object key) {
+    default Map<Float, Long> optMapFloatLong(Object key) {
         return optMap(key, Float.class, Long.class);
     }
 
-    default Map<Float,Long> getMapFloatLong(Object key) {
+    default Map<Float, Long> getMapFloatLong(Object key) {
         return getMap(key, Float.class, Long.class);
     }
 
-    default Map<Float,Float> optMapFloatFloat(Object key) {
+    default Map<Float, Float> optMapFloatFloat(Object key) {
         return optMap(key, Float.class, Float.class);
     }
 
-    default Map<Float,Float> getMapFloatFloat(Object key) {
+    default Map<Float, Float> getMapFloatFloat(Object key) {
         return getMap(key, Float.class, Float.class);
     }
 
-    default Map<Float,Double> optMapFloatDouble(Object key) {
+    default Map<Float, Double> optMapFloatDouble(Object key) {
         return optMap(key, Float.class, Double.class);
     }
 
-    default Map<Float,Double> getMapFloatDouble(Object key) {
+    default Map<Float, Double> getMapFloatDouble(Object key) {
         return getMap(key, Float.class, Double.class);
     }
 
-    default Map<Float,OptGet> optMapFloatOptGet(Object key) {
+    default Map<Float, OptGet> optMapFloatOptGet(Object key) {
         return optMap(key, Float.class, OptGet.class);
     }
 
-    default Map<Float,OptGet> getMapFloatOptGet(Object key) {
+    default Map<Float, OptGet> getMapFloatOptGet(Object key) {
         return getMap(key, Float.class, OptGet.class);
     }
 
-    default Map<Float,OptGetMap> optMapFloatOptGetMap(Object key) {
+    default Map<Float, OptGetMap> optMapFloatOptGetMap(Object key) {
         return optMap(key, Float.class, OptGetMap.class);
     }
 
-    default Map<Float,OptGetMap> getMapFloatOptGetMap(Object key) {
+    default Map<Float, OptGetMap> getMapFloatOptGetMap(Object key) {
         return getMap(key, Float.class, OptGetMap.class);
     }
 
-    default <ENUM extends Enum> Map<Float,ENUM> optMapFloatEnum(Object key, Class<ENUM> enumClass) {
-        return optMap(key, Float.class, enumClass);
-    }
-
-    default <ENUM extends Enum> Map<Float,ENUM>  getMapFloatEnum(Object key, Class<ENUM> enumClass) {
-        return getMap(key, Float.class, enumClass);
-    }
-
-    default Map<Double,String> optMapDoubleString(Object key) {
+    default Map<Double, String> optMapDoubleString(Object key) {
         return optMap(key, Double.class, String.class);
     }
 
-    default Map<Double,String> getMapDoubleString(Object key) {
+    default Map<Double, String> getMapDoubleString(Object key) {
         return getMap(key, Double.class, String.class);
     }
 
-    default Map<Double,Byte> optMapDoubleByte(Object key) {
+    default Map<Double, Byte> optMapDoubleByte(Object key) {
         return optMap(key, Double.class, Byte.class);
     }
 
-    default Map<Double,Byte> getMapDoubleByte(Object key) {
+    default Map<Double, Byte> getMapDoubleByte(Object key) {
         return getMap(key, Double.class, Byte.class);
     }
 
-    default Map<Double,Short> optMapDoubleShort(Object key) {
+    default Map<Double, Short> optMapDoubleShort(Object key) {
         return optMap(key, Double.class, Short.class);
     }
 
-    default Map<Double,Short> getMapDoubleShort(Object key) {
+    default Map<Double, Short> getMapDoubleShort(Object key) {
         return getMap(key, Double.class, Short.class);
     }
 
-    default Map<Double,Integer> optMapDoubleInteger(Object key) {
+    default Map<Double, Integer> optMapDoubleInteger(Object key) {
         return optMap(key, Double.class, Integer.class);
     }
 
-    default Map<Double,Integer> getMapDoubleInteger(Object key) {
+    default Map<Double, Integer> getMapDoubleInteger(Object key) {
         return getMap(key, Double.class, Integer.class);
     }
 
-    default Map<Double,Long> optMapDoubleLong(Object key) {
+    default Map<Double, Long> optMapDoubleLong(Object key) {
         return optMap(key, Double.class, Long.class);
     }
 
-    default Map<Double,Long> getMapDoubleLong(Object key) {
+    default Map<Double, Long> getMapDoubleLong(Object key) {
         return getMap(key, Double.class, Long.class);
     }
 
-    default Map<Double,Float> optMapDoubleFloat(Object key) {
+    default Map<Double, Float> optMapDoubleFloat(Object key) {
         return optMap(key, Double.class, Float.class);
     }
 
-    default Map<Double,Float> getMapDoubleFloat(Object key) {
+    default Map<Double, Float> getMapDoubleFloat(Object key) {
         return getMap(key, Double.class, Float.class);
     }
 
-    default Map<Double,Double> optMapDoubleDouble(Object key) {
+    default Map<Double, Double> optMapDoubleDouble(Object key) {
         return optMap(key, Double.class, Double.class);
     }
 
-    default Map<Double,Double> getMapDoubleDouble(Object key) {
+    default Map<Double, Double> getMapDoubleDouble(Object key) {
         return getMap(key, Double.class, Double.class);
     }
 
-    default Map<Double,OptGet> optMapDoubleOptGet(Object key) {
+    default Map<Double, OptGet> optMapDoubleOptGet(Object key) {
         return optMap(key, Double.class, OptGet.class);
     }
 
-    default Map<Double,OptGet> getMapDoubleOptGet(Object key) {
+    default Map<Double, OptGet> getMapDoubleOptGet(Object key) {
         return getMap(key, Double.class, OptGet.class);
     }
 
-    default Map<Double,OptGetMap> optMapDoubleOptGetMap(Object key) {
+    default Map<Double, OptGetMap> optMapDoubleOptGetMap(Object key) {
         return optMap(key, Double.class, OptGetMap.class);
     }
 
-    default Map<Double,OptGetMap> getMapDoubleOptGetMap(Object key) {
+    default Map<Double, OptGetMap> getMapDoubleOptGetMap(Object key) {
         return getMap(key, Double.class, OptGetMap.class);
     }
 
-    default <ENUM extends Enum> Map<Double,ENUM> optMapDoubleEnum(Object key, Class<ENUM> enumClass) {
-        return optMap(key, Double.class, enumClass);
-    }
-
-    default <ENUM extends Enum> Map<Double,ENUM>  getMapDoubleEnum(Object key, Class<ENUM> enumClass) {
-        return getMap(key, Double.class, enumClass);
-    }
 
 }
