@@ -45,6 +45,7 @@ public class GetOptTests extends AbstractTests {
         assert map.opt("z") == null;
         assert map.opt("a.b") == null;
         assert map.opt("d.da.da") == null;
+        assert map.opt("d.db.dba").equals("two");
         assert map.optString("d.db.dba").equals("two");
 
         // default
@@ -145,13 +146,32 @@ public class GetOptTests extends AbstractTests {
 
 
     @Test
-    public void error() {
+    public void errorKeyNotFound() {
         // Error is informative
         OptGetMap map = new OptGetMap(new Gson().fromJson("""
                 {
                     d: {
                         db: {
                             dba: "two"
+                        }
+                    }
+                }
+                                """, Map.class));
+        try {
+            map.getInteger("d.db.dba");
+        } catch (Throwable t) {
+            System.out.println(t);
+        }
+    }
+
+    @Test
+    public void errorKeyNull() {
+        // Error is informative
+        OptGetMap map = new OptGetMap(new Gson().fromJson("""
+                {
+                    d: {
+                        db: {
+                            dba: null
                         }
                     }
                 }

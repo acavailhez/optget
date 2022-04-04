@@ -11,13 +11,20 @@ import java.util.Map;
 public interface OptGet {
 
     // The main function to override
+    // Lookup an object for a simple key (ie "location" instead of "location.latittude")
     // Can return null
-    Object opt(String key);
+    Object internalOpt(String key);
 
     // What to do when a key is missing
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
-    void onMissingKey(String key, Class classToCast);
+    default void onMissingKey(String key, Class classToCast) {
+        throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast.getName());
+    }
+
+    default void onNullKey(String key, Class classToCast) {
+        throw new IllegalArgumentException("Key:" + key + " of class:" + classToCast.getName()+ " is null");
+    }
 
 
     // #####################
@@ -56,7 +63,7 @@ public interface OptGet {
     default <T> T get(Object key, Class<T> classToCast) {
         T value = opt(key, classToCast);
         if (value == null) {
-            onMissingKey(key.toString(), classToCast);
+            onNullKey(key.toString(), classToCast);
         }
         return value;
     }
@@ -65,10 +72,14 @@ public interface OptGet {
     //  Internal Utils
     // #####################
 
+    default Object opt(String key){
+        return recursiveOpt(key);
+    }
+
     // Will transform getString("key.sub") to getGetOpt("key").getString("sub")
     // when used in groovy, map.key.sub will then work
     default Object recursiveOpt(Object key) {
-        Object value = opt(key.toString());
+        Object value = internalOpt(key.toString());
         if (value != null) {
             return value;
         }
@@ -82,7 +93,7 @@ public interface OptGet {
                 return null;
             }
         }
-        return optGet.opt(subkeys[subkeys.length - 1]);
+        return optGet.internalOpt(subkeys[subkeys.length - 1]);
     }
 
 
@@ -236,7 +247,7 @@ public interface OptGet {
     default <T> List<T> getList(Object key, Class<T> classToCast) {
         List<T> value = optList(key, classToCast);
         if (value == null) {
-            onMissingKey(key.toString(), List.class);
+            onNullKey(key.toString(), List.class);
         }
         return value;
     }
@@ -346,7 +357,7 @@ public interface OptGet {
     default <KEY, VALUE> Map<KEY, VALUE> getMap(Object key, Class<KEY> keyToCast, Class<VALUE> valueToCast) {
         Map<KEY, VALUE> mapCasted = optMap(key, keyToCast, valueToCast);
         if (mapCasted == null) {
-            onMissingKey(key.toString(), Map.class);
+            onNullKey(key.toString(), Map.class);
         }
         return mapCasted;
     }

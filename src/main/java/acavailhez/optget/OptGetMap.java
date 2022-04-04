@@ -23,12 +23,7 @@ public class OptGetMap implements Map<String, Object>, OptGet {
     }
 
     @Override
-    public void onMissingKey(String key, Class classToCast) {
-        throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast.getName());
-    }
-
-    @Override
-    public Object opt(String key) {
+    public Object internalOpt(String key) {
         return map.get(key);
     }
 

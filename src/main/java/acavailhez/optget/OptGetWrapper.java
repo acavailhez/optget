@@ -17,13 +17,9 @@ public class OptGetWrapper implements OptGet {
         this.wrapped = toWrap;
     }
 
-    @Override
-    public void onMissingKey(String key, Class classToCast) {
-        throw new IllegalArgumentException("Object of class:" + wrapped.getClass().getSimpleName() + " does not expose a property:'" + key + "' of class:" + classToCast);
-    }
 
     @Override
-    public Object opt(String key) {
+    public Object internalOpt(String key) {
         // try to find a public getter matching the key
         String getterName = "get" + capitalizeFirstLetter(key);
         try {
