@@ -1,8 +1,6 @@
 package acavailhez.optget;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,19 +12,19 @@ public class GetOptTests extends AbstractTests {
     @Test
     public void testSimple() throws Exception {
         Map json = new Gson().fromJson("""
-{
-    a: 1.0,
-    b: "string",
-    d: {
-        da: 1.0,
-        db: {
-            dba: "two"
-        }
-    },
-    e: [1.0, 2.0],
-    f: "12"
-}
-                """, Map.class);
+                {
+                    a: 1.0,
+                    b: "string",
+                    d: {
+                        da: 1.0,
+                        db: {
+                            dba: "two"
+                        }
+                    },
+                    e: [1.0, 2.0],
+                    f: "12"
+                }
+                                """, Map.class);
 
         json.put("c", Locale.FRENCH);
         OptGetMap map = new OptGetMap(json);
@@ -47,6 +45,7 @@ public class GetOptTests extends AbstractTests {
         assert map.opt("z") == null;
         assert map.opt("a.b") == null;
         assert map.opt("d.da.da") == null;
+        assert map.optString("d.db.dba").equals("two");
 
         // default
         assert map.opt("z", String.class, "test").equals("test");
@@ -142,6 +141,26 @@ public class GetOptTests extends AbstractTests {
         Assert.assertEquals(Bootstrap4Color.DANGER, CastUtils.cast("DANGER", Bootstrap4Color.class));
         Assert.assertEquals(Bootstrap4Color.DANGER, CastUtils.cast("danger", Bootstrap4Color.class));
 
+    }
+
+
+    @Test
+    public void error() {
+        // Error is informative
+        OptGetMap map = new OptGetMap(new Gson().fromJson("""
+                {
+                    d: {
+                        db: {
+                            dba: "two"
+                        }
+                    }
+                }
+                                """, Map.class));
+        try {
+            map.getInteger("d.db.dba");
+        } catch (Throwable t) {
+            System.out.println(t);
+        }
     }
 
 }

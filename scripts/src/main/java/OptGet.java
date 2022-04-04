@@ -41,7 +41,11 @@ public interface OptGet {
         if (nonCast == null) {
             return defaultValue;
         }
-        return CastUtils.cast(nonCast, classToCast);
+        try {
+            return CastUtils.cast(nonCast, classToCast);
+        } catch (Throwable t) {
+            throw new RuntimeException("Cannot read key " + key, t);
+        }
     }
 
     default Object get(Object key) {
