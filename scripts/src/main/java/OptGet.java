@@ -72,7 +72,6 @@ public interface OptGet {
     //  Internals
     // #####################
 
-    @SuppressWarnings("unchecked")
     private <T> @Nullable T privateOpt(@NotNull Object key, @NotNull Class<T> classToCast, @Nullable T defaultValue) {
         Object nonCast = recursiveOpt(key);
         if (nonCast == null) {
@@ -88,6 +87,7 @@ public interface OptGet {
     // Will transform getString("key.sub") to getGetOpt("key").getString("sub")
     // when used in groovy, map.key.sub will then work
     default @Nullable Object recursiveOpt(@NotNull Object key) {
+        // First attempt to get the value directly
         Object value = internalOpt(key.toString());
         if (value != null) {
             return value;
