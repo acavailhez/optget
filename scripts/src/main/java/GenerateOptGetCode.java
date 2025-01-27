@@ -23,7 +23,7 @@ public class GenerateOptGetCode {
 
     public static void main(String[] args) throws IOException {
         log.info("hello");
-        log.info("Generating source code for acavailhez.optget.OptGet");
+        log.info("Generating source code for OptGet");
 
         SHORTCUT_CLASSES.add(String.class);
         SHORTCUT_CLASSES.add(Byte.class);
@@ -41,8 +41,11 @@ public class GenerateOptGetCode {
         MAP_KEY_CLASSES.add(Float.class);
         MAP_KEY_CLASSES.add(Double.class);
 
-        File model = new File("./scripts/src/main/java/acavailhez/optget/OptGet.java");
+        File model = new File("./release/src/main/java/acavailhez/optget/OptGet.java");
         String code = FileUtils.readFileToString(model, "UTF-8");
+
+
+        String code2 = insertGenerated(code, "SIMPLE-SHORTCUTS", "test");
 
         // Simple shortcuts
         String simpleShortcuts = "";
@@ -68,7 +71,7 @@ public class GenerateOptGetCode {
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
         }
-        code = code.replace("// GENERATE:SIMPLE-SHORTCUTS", simpleShortcuts);
+        code = insertGenerated(code, "SIMPLE-SHORTCUTS", simpleShortcuts);
 
         // List shortcuts
         String listShortcuts = "";
@@ -89,7 +92,7 @@ public class GenerateOptGetCode {
             listShortcuts += BR;
         }
 
-        code = code.replace("// GENERATE:LIST-SHORTCUTS", listShortcuts);
+        code = insertGenerated(code, "LIST-SHORTCUTS", listShortcuts);
 
         String mapShortcuts = "";
         for (Class keyToCast : MAP_KEY_CLASSES) {
@@ -111,14 +114,32 @@ public class GenerateOptGetCode {
             }
         }
 
-        code = code.replace("// GENERATE:MAP-SHORTCUTS", mapShortcuts);
+        code = insertGenerated(code, "MAP-SHORTCUTS", mapShortcuts);
 
-        File optGetClassFile = new File("./release/src/main/java/acavailhez/optget/acavailhez.optget.OptGet.java");
+        File optGetClassFile = new File("./release/src/main/java/acavailhez/optget/OptGet.java");
         if (!optGetClassFile.exists()) {
             optGetClassFile.createNewFile();
         }
         FileUtils.write(optGetClassFile, code, "UTF-8");
 
-        log.info("Generated source code for acavailhez.optget.OptGet");
+        log.info("Generated source code for OptGet");
+    }
+
+    private static String insertGenerated(String source, String alias, String generated) {
+        int beginAlias = source.indexOf("// GENERATED-BEGIN:" + alias);
+        int endAlias = source.indexOf("// GENERATED-END:" + alias);
+        if (beginAlias < 0) {
+            throw new RuntimeException("Cannot find tag " + "// GENERATED-BEGIN:" + alias);
+        }
+        if (endAlias < 0) {
+            throw new RuntimeException("Cannot find tag " + "// GENERATED-END:" + alias);
+        }
+        int begin = source.indexOf("\n", beginAlias);
+        int end = source.substring(0, endAlias).lastIndexOf("\n");
+
+        source = source.substring(0, begin) +
+                generated +
+                source.substring(end);
+        return source;
     }
 }
