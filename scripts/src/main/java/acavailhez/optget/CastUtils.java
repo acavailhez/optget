@@ -1,4 +1,6 @@
-// Empty shell of CastUtils to keep OptGet model compiling
+package acavailhez.optget;
+
+// Empty shell of acavailhez.optget.CastUtils to keep acavailhez.optget.OptGet model compiling
 public class CastUtils {
 
     @SuppressWarnings("unchecked")

@@ -1,3 +1,5 @@
+import acavailhez.optget.OptGet;
+import acavailhez.optget.OptGetMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +12,7 @@ import java.util.List;
 public class GenerateOptGetCode {
     private static final Logger log = LogManager.getLogger(GenerateOptGetCode.class);
 
-    // All classes that will have a shortcut in OptGet
+    // All classes that will have a shortcut in acavailhez.optget.OptGet
     private final static List<Class> SHORTCUT_CLASSES = new ArrayList<>();
 
     // All classes that will have shortcuts in the map utils, as a key
@@ -21,7 +23,7 @@ public class GenerateOptGetCode {
 
     public static void main(String[] args) throws IOException {
         log.info("hello");
-        log.info("Generating source code for OptGet");
+        log.info("Generating source code for acavailhez.optget.OptGet");
 
         SHORTCUT_CLASSES.add(String.class);
         SHORTCUT_CLASSES.add(Byte.class);
@@ -39,11 +41,8 @@ public class GenerateOptGetCode {
         MAP_KEY_CLASSES.add(Float.class);
         MAP_KEY_CLASSES.add(Double.class);
 
-        File model = new File("./scripts/src/main/java/OptGet.java");
+        File model = new File("./scripts/src/main/java/acavailhez/optget/OptGet.java");
         String code = FileUtils.readFileToString(model, "UTF-8");
-
-        String imports = "package acavailhez.optget;" + BR;
-        code = code.replace("// GENERATE:IMPORTS", imports);
 
         // Simple shortcuts
         String simpleShortcuts = "";
@@ -52,19 +51,19 @@ public class GenerateOptGetCode {
             String name = classToCast.getSimpleName();
 
             // Generate "optString(key)" method
-            simpleShortcuts += TAB + "default " + name + " opt" + name + "(Object key) {" + BR;
+            simpleShortcuts += TAB + " " + name + " opt" + name + "(Object key) {" + BR;
             simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "optString(key, default)" method
-            simpleShortcuts += TAB + "default " + name + " opt" + name + "(Object key, " + name + " defaultValue) {" + BR;
+            simpleShortcuts += TAB + " " + name + " opt" + name + "(Object key, " + name + " defaultValue) {" + BR;
             simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class, defaultValue);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "getString(key)" method
-            simpleShortcuts += TAB + "default " + name + " get" + name + "(Object key) {" + BR;
+            simpleShortcuts += TAB + " " + name + " get" + name + "(Object key) {" + BR;
             simpleShortcuts += TAB + TAB + "return get(key, " + name + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
@@ -78,13 +77,13 @@ public class GenerateOptGetCode {
             String name = classToCast.getSimpleName();
 
             // Generate "optListString(key)" method
-            listShortcuts += TAB + "default List<" + name + "> optList" + name + "(Object key) {" + BR;
+            listShortcuts += TAB + " List<" + name + "> optList" + name + "(Object key) {" + BR;
             listShortcuts += TAB + TAB + "return optList(key, " + name + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
 
             // Generate "getListString(key)" method
-            listShortcuts += TAB + "default List<" + name + "> getList" + name + "(Object key) {" + BR;
+            listShortcuts += TAB + " List<" + name + "> getList" + name + "(Object key) {" + BR;
             listShortcuts += TAB + TAB + "return getList(key, " + name + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
@@ -99,13 +98,13 @@ public class GenerateOptGetCode {
                 String value = valueToCast.getSimpleName();
 
                 // Generate "optMapStringObject(key)" method
-                mapShortcuts += TAB + "default Map<" + key + ", " + value + "> optMap" + key + value + "(Object key) {" + BR;
+                mapShortcuts += TAB + " Map<" + key + ", " + value + "> optMap" + key + value + "(Object key) {" + BR;
                 mapShortcuts += TAB + TAB + "return optMap(key, " + key + ".class, " + value + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
 
                 // Generate "getMapStringObject(key)" method
-                mapShortcuts += TAB + "default Map<" + key + ", " + value + "> getMap" + key + value + "(Object key) {" + BR;
+                mapShortcuts += TAB + " Map<" + key + ", " + value + "> getMap" + key + value + "(Object key) {" + BR;
                 mapShortcuts += TAB + TAB + "return getMap(key, " + key + ".class, " + value + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
@@ -114,12 +113,12 @@ public class GenerateOptGetCode {
 
         code = code.replace("// GENERATE:MAP-SHORTCUTS", mapShortcuts);
 
-        File optGetClassFile = new File("./release/src/main/java/acavailhez/optget/OptGet.java");
+        File optGetClassFile = new File("./release/src/main/java/acavailhez/optget/acavailhez.optget.OptGet.java");
         if (!optGetClassFile.exists()) {
             optGetClassFile.createNewFile();
         }
         FileUtils.write(optGetClassFile, code, "UTF-8");
 
-        log.info("Generated source code for OptGet");
+        log.info("Generated source code for acavailhez.optget.OptGet");
     }
 }
