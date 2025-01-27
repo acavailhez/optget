@@ -114,7 +114,7 @@ public class GenerateOptGetCode {
 
         code = code.replace("// GENERATE:MAP-SHORTCUTS", mapShortcuts);
 
-        File optGetClassFile = new File("./src/main/java/acavailhez/optget/OptGet.java");
+        File optGetClassFile = new File("./release/src/main/java/acavailhez/optget/OptGet.java");
         if (!optGetClassFile.exists()) {
             optGetClassFile.createNewFile();
         }

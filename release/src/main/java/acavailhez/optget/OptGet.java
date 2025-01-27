@@ -3,10 +3,8 @@ package acavailhez.optget;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 // OptGet wraps an object that only answers to a `public Object opt(Object key) throws Exception` method
 // and exposes many shortcut functions to cast objects in desirable formats
@@ -29,7 +27,7 @@ public interface OptGet {
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
     default void onNullValue(@NotNull String key, @NotNull Class classToCast) {
-        throw new IllegalArgumentException("Key:" + key + " of class:" + classToCast.getName()+ " has null value");
+        throw new IllegalArgumentException("Key:" + key + " of class:" + classToCast.getName() + " has null value");
     }
 
 
@@ -37,20 +35,46 @@ public interface OptGet {
     //  OptGet basics
     // #####################
 
+    // Simplest opt
     default @Nullable Object opt(@NotNull Object key) {
-        return opt(key, Object.class, null);
+        return privateOpt(key, Object.class, null);
     }
 
+    // opt with a cast
     default <T> @Nullable T opt(@NotNull Object key, @NotNull Class<T> classToCast) {
-        return opt(key, classToCast, null);
+        return privateOpt(key, classToCast, null);
     }
 
+    // opt with a default value
     default @Nullable Object opt(@NotNull Object key, @NotNull Object defaultValue) {
-        return opt(key, Object.class, defaultValue);
+        return privateOpt(key, Object.class, defaultValue);
     }
+
+    // opt with a cast and a default value
+    default <T> @NotNull T opt(@NotNull Object key, @NotNull Class<T> classToCast, @NotNull T defaultValue) {
+        return Objects.requireNonNull(privateOpt(key, classToCast, defaultValue));
+    }
+
+    // simplest get
+    default @NotNull Object get(@NotNull Object key) {
+        return get(key, Object.class);
+    }
+
+    // get with a cast
+    default <T> @NotNull T get(@NotNull Object key, @NotNull Class<T> classToCast) {
+        T value = opt(key, classToCast);
+        if (value == null) {
+            onNullValue(key.toString(), classToCast);
+        }
+        return value;
+    }
+
+    // #####################
+    //  Internals
+    // #####################
 
     @SuppressWarnings("unchecked")
-    default <T> @NotNull T opt(@NotNull Object key, @NotNull Class<T> classToCast, @NotNull T defaultValue) {
+    private <T> @Nullable T privateOpt(@NotNull Object key, @NotNull Class<T> classToCast, @Nullable T defaultValue) {
         Object nonCast = recursiveOpt(key);
         if (nonCast == null) {
             return defaultValue;
@@ -61,27 +85,7 @@ public interface OptGet {
             throw new RuntimeException("Cannot read key " + key, t);
         }
     }
-
-    default @NotNull Object get(@NotNull Object key) {
-        return get(key, Object.class);
-    }
-
-    default <T> @NotNull T get(@NotNull Object key, @NotNull Class<T> classToCast) {
-        T value = opt(key, classToCast);
-        if (value == null) {
-            onNullValue(key.toString(), classToCast);
-        }
-        return value;
-    }
-
-    // #####################
-    //  Internal Utils
-    // #####################
-
-    default @Nullable Object opt(@NotNull String key){
-        return recursiveOpt(key);
-    }
-
+    
     // Will transform getString("key.sub") to getGetOpt("key").getString("sub")
     // when used in groovy, map.key.sub will then work
     default @Nullable Object recursiveOpt(@NotNull Object key) {

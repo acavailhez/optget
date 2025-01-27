@@ -1,5 +1,7 @@
 package acavailhez.optget;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +53,7 @@ public class OptGetMap implements Map<String, Object>, OptGet {
 
     @Override
     // Here we do not proxy to map, we use the OptGet instead
-    public Object get(Object key) {
+    public Object get(@NotNull Object key) {
         return OptGet.super.get(key);
     }
 
