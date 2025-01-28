@@ -1,5 +1,6 @@
 package acavailhez.optget;
 
+import acavailhez.optget.wraps.MapOptGet;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class GetOptTests extends AbstractTests {
                                 """, Map.class);
 
         json.put("c", Locale.FRENCH);
-        OptGetMap map = new OptGetMap(json);
+        MapOptGet map = new MapOptGet(json);
 
         assert map.get("a").equals(1.0d);
         assert map.getInteger("a").equals(1);
@@ -56,7 +57,7 @@ public class GetOptTests extends AbstractTests {
     public void list() {
         LinkedHashMap<String, List<Integer>> map = new LinkedHashMap<String, List<Integer>>(1);
         map.put("a", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5)));
-        OptGetMap optget = new OptGetMap(map);
+        MapOptGet optget = new MapOptGet(map);
 
         List<Long> list = optget.getListLong("a");
         assert list.size() == 5;
@@ -78,7 +79,7 @@ public class GetOptTests extends AbstractTests {
     public void listWithCast() {
         LinkedHashMap<String, List<Serializable>> map = new LinkedHashMap<String, List<Serializable>>(1);
         map.put("a", new ArrayList<Serializable>(Arrays.asList("1", "2", "3", 4, 5)));
-        OptGetMap optget = new OptGetMap(map);
+        MapOptGet optget = new MapOptGet(map);
 
         List<Integer> list2 = optget.getListInteger("a");
         assert list2.size() == 5;
@@ -91,7 +92,7 @@ public class GetOptTests extends AbstractTests {
     public void listWithEnumCast() {
         LinkedHashMap<String, List<Constable>> map = new LinkedHashMap<String, List<Constable>>(1);
         map.put("a", new ArrayList<Constable>(Arrays.asList(Bootstrap4Color.DANGER, "PRIMARY")));
-        OptGetMap optget = new OptGetMap(map);
+        MapOptGet optget = new MapOptGet(map);
 
         List<Bootstrap4Color> list2 = optget.getListEnum("a", Bootstrap4Color.class);
         assert list2.size() == 2;
@@ -108,7 +109,7 @@ public class GetOptTests extends AbstractTests {
         map5.put(2, "two");
         map5.put(3, "three");
         map1.put("a", map5);
-        OptGetMap optget = new OptGetMap(map1);
+        MapOptGet optget = new MapOptGet(map1);
 
         Map<Integer, String> map = optget.getMapIntegerString("a");
         assert map.size() == 3;
@@ -119,12 +120,10 @@ public class GetOptTests extends AbstractTests {
         assert map2.get("2").equals("two");
 
         OptGet map3 = optget.getOptGet("a");
-        assert map3.getString("1").equals("one");
         assert map3.getString(1).equals("one");
 
 
-        OptGetMap map4 = optget.getOptGetMap("a");
-        assert map4.getString("1").equals("one");
+        MapOptGet map4 = optget.getMapOptGet("a");
         assert map4.getString(1).equals("one");
     }
 
@@ -148,7 +147,7 @@ public class GetOptTests extends AbstractTests {
     @Test
     public void errorKeyNotFound() {
         // Error is informative
-        OptGetMap map = new OptGetMap(new Gson().fromJson("""
+        MapOptGet map = new MapOptGet(new Gson().fromJson("""
                 {
                     d: {
                         db: {
@@ -167,7 +166,7 @@ public class GetOptTests extends AbstractTests {
     @Test
     public void errorKeyNull() {
         // Error is informative
-        OptGetMap map = new OptGetMap(new Gson().fromJson("""
+        MapOptGet map = new MapOptGet(new Gson().fromJson("""
                 {
                     d: {
                         db: {

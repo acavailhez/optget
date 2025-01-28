@@ -1,6 +1,8 @@
 package acavailhez.optget;
 
 
+import acavailhez.optget.wraps.MapOptGet;
+
 import java.util.Map;
 
 // Cast an object to a class
@@ -27,8 +29,8 @@ public class CastUtils {
             return (T) castToByte(unknown);
         } else if (target.isEnum()) {
             return castToEnum(unknown, target);
-        } else if (OptGetMap.class.isAssignableFrom(target)) {
-            return (T) castToOptGetMap(unknown);
+        } else if (MapOptGet.class.isAssignableFrom(target)) {
+            return (T) castToMapOptGet(unknown);
         } else if (OptGet.class.isAssignableFrom(target)) {
             return (T) castToOptGet(unknown);
         }
@@ -59,20 +61,20 @@ public class CastUtils {
             return (OptGet) unknown;
         }
         if (unknown instanceof Map) {
-            return new OptGetMap((Map) unknown);
+            return new MapOptGet((Map) unknown);
         }
         // Last resort, wrap the object directly, accessing its fields
-        return new OptGetWrapper(unknown);
+       throw new RuntimeException();
     }
 
-    public static OptGetMap castToOptGetMap(Object unknown) {
-        if (unknown instanceof OptGetMap) {
-            return (OptGetMap) unknown;
+    public static MapOptGet castToMapOptGet(Object unknown) {
+        if (unknown instanceof MapOptGet) {
+            return (MapOptGet) unknown;
         }
         if (unknown instanceof Map) {
-            return new OptGetMap((Map) unknown);
+            return new MapOptGet((Map) unknown);
         }
-        throw new IllegalArgumentException("Cannot wrap object of class:" + unknown.getClass() + " to OptGetMap");
+        throw new IllegalArgumentException("Cannot wrap object of class:" + unknown.getClass() + " to MapOptGet");
     }
 
     public static Integer castToInteger(Object unknown) {

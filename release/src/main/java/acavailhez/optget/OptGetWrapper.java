@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 // Wrap an object to use its getters and properties as optget members
-public class OptGetWrapper extends OptGet {
+public class OptGetWrapper  {
 
     private final Object wrapped;
 
@@ -18,7 +18,7 @@ public class OptGetWrapper extends OptGet {
     }
 
 
-    @Override
+
     public Object optToOverride(String key) {
         // try to find a public getter matching the key
         String getterName = "get" + capitalizeFirstLetter(key);

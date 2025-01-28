@@ -1,14 +1,16 @@
 package acavailhez.optget;
 
 import acavailhez.optget.casts.*;
+import acavailhez.optget.wraps.MapOptGet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 // acavailhez.optget.OptGet wraps an object that only answers to a `public Object opt(Object key) throws Exception` method
 // and exposes many shortcut functions to cast objects in desirable formats
-public abstract class OptGet {
+public abstract class OptGet implements Map<Object, Object> {
 
     // code used to cast Object to the desired class
     @SuppressWarnings("rawtypes")
@@ -34,20 +36,84 @@ public abstract class OptGet {
     // The main function to override
     // Lookup an object for a simple key (ie "location" instead of "location.latitude")
     // Can return null
-    protected abstract @Nullable Object optToOverride(final @NotNull String key);
+    protected abstract @Nullable Object optToOverride(final @NotNull Object key);
 
     // What to do when a key is missing
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
-    protected <T> void onMissingKey(final @NotNull String key, final @NotNull Class<T> classToCast) {
+    protected <T> void onMissingKey(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast.getName());
     }
 
     // What to do when a key exists, but the value is missing
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
-    protected <T> void onNullValue(final @NotNull String key, final @NotNull Class<T> classToCast) {
+    protected <T> void onNullValue(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         throw new IllegalArgumentException("Key:" + key + " of class:" + classToCast.getName() + " has null value");
+    }
+
+    // #####################
+    //  Map implementation, can be overriden more
+    // #####################
+
+    // GETTERS ---
+
+    // keySet() has to be implemented
+
+    @Override
+    public int size() {
+        return keySet().size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return keySet().isEmpty();
+    }
+
+    @Override
+    public boolean containsKey(final @NotNull Object key) {
+        return keySet().contains(key);
+    }
+
+    @Override
+    public boolean containsValue(final @NotNull Object value) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public @NotNull Collection<Object> values() {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public @NotNull Set<Entry<Object, Object>> entrySet() {
+        return keySet()
+                .stream()
+                .map(it -> new AbstractMap.SimpleEntry<Object, Object>(it, opt(it)))
+                .collect(Collectors.toSet());
+    }
+
+    // SETTERS ---
+
+    @Override
+    public Object put(final @NotNull Object key, final @Nullable Object value) {
+        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
+    }
+
+    @Override
+    public Object remove(final @NotNull Object key) {
+        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
+    }
+
+    @Override
+    public void putAll(final @NotNull Map<?, ?> m) {
+        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
+    }
+
+    @Override
+    public void clear() {
+        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
     }
 
     // #####################
@@ -116,7 +182,7 @@ public abstract class OptGet {
     // when used in groovy, map.key.sub will then work
     private @Nullable Object recursiveOpt(final @NotNull Object key) {
         // First attempt to get the value directly
-        Object value = optToOverride(key.toString());
+        Object value = optToOverride(key);
         if (value != null) {
             return value;
         }
@@ -149,7 +215,9 @@ public abstract class OptGet {
 
     // Simple shortcuts
 
-    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+
+
     public @Nullable String optString(final @NotNull Object key) {
         return opt(key, String.class);
     }
@@ -246,44 +314,44 @@ public abstract class OptGet {
         return get(key, OptGet.class);
     }
 
-    public @Nullable OptGetMap optOptGetMap(final @NotNull Object key) {
-        return opt(key, OptGetMap.class);
+    public @Nullable MapOptGet optMapOptGet(final @NotNull Object key) {
+        return opt(key, MapOptGet.class);
     }
 
-    public @Nullable OptGetMap optOptGetMap(final @NotNull Object key, OptGetMap defaultValue) {
-        return opt(key, OptGetMap.class, defaultValue);
+    public @Nullable MapOptGet optMapOptGet(final @NotNull Object key, MapOptGet defaultValue) {
+        return opt(key, MapOptGet.class, defaultValue);
     }
 
-    public @NotNull OptGetMap getOptGetMap(final @NotNull Object key) {
-        return get(key, OptGetMap.class);
+    public @NotNull MapOptGet getMapOptGet(final @NotNull Object key) {
+        return get(key, MapOptGet.class);
     }
 
 
     // GENERATED-END:SIMPLE-SHORTCUTS
 
-    public <ENUM extends Enum> ENUM optEnum(Object key, Class<ENUM> enumClass) {
+    public @Nullable <ENUM extends Enum> ENUM optEnum(final @NotNull Object key, final @NotNull Class<ENUM> enumClass) {
         return opt(key, enumClass);
     }
 
-    public <ENUM extends Enum> ENUM optEnum(Object key, Class<ENUM> enumClass, ENUM defaultValue) {
+    public <ENUM extends Enum> ENUM optEnum(final @NotNull Object key, Class<ENUM> enumClass, final @NotNull ENUM defaultValue) {
         return opt(key, enumClass, defaultValue);
     }
 
-    public <ENUM extends Enum> ENUM getEnum(Object key, Class<ENUM> enumClass) {
+    public <ENUM extends Enum> ENUM getEnum(final @NotNull Object key, final @NotNull Class<ENUM> enumClass) {
         return get(key, enumClass);
     }
 
     // List shortcuts
 
-    public List optList(Object key) {
+    public List optList(final @NotNull Object key) {
         return opt(key, List.class);
     }
 
-    public List getList(Object key) {
+    public List getList(final @NotNull Object key) {
         return get(key, List.class);
     }
 
-    public <T> List<T> optList(Object key, Class<T> classToCast) {
+    public <T> List<T> optList(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         List list = opt(key, List.class);
         List<T> listCasted = new LinkedList<T>();
         for (Object o : list) {
@@ -292,7 +360,7 @@ public abstract class OptGet {
         return listCasted;
     }
 
-    public <T> List<T> getList(Object key, Class<T> classToCast) {
+    public <T> List<T> getList(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         List<T> value = optList(key, classToCast);
         if (value == null) {
             onNullValue(key.toString(), List.class);
@@ -300,7 +368,9 @@ public abstract class OptGet {
         return value;
     }
 
-    // GENERATED-BEGIN:LIST-SHORTCUTS
+    // GENERATED-BEGIN:LIST-SHORTCUTS
+
+
     public @Nullable List<String> optListString(final @NotNull Object key) {
         return optList(key, String.class);
     }
@@ -365,36 +435,36 @@ public abstract class OptGet {
         return getList(key, OptGet.class);
     }
 
-    public @Nullable List<OptGetMap> optListOptGetMap(final @NotNull Object key) {
-        return optList(key, OptGetMap.class);
+    public @Nullable List<MapOptGet> optListMapOptGet(final @NotNull Object key) {
+        return optList(key, MapOptGet.class);
     }
 
-    public @NotNull List<OptGetMap> getListOptGetMap(final @NotNull Object key) {
-        return getList(key, OptGetMap.class);
+    public @NotNull List<MapOptGet> getListMapOptGet(final @NotNull Object key) {
+        return getList(key, MapOptGet.class);
     }
 
 
     // GENERATED-END:LIST-SHORTCUTS
 
-    <ENUM extends Enum> List<ENUM> optListEnum(Object key, Class<ENUM> enumClass) {
+    public <ENUM extends Enum> List<ENUM> optListEnum(Object key, Class<ENUM> enumClass) {
         return optList(key, enumClass);
     }
 
-    <ENUM extends Enum> List<ENUM> getListEnum(Object key, Class<ENUM> enumClass) {
+    public <ENUM extends Enum> List<ENUM> getListEnum(Object key, Class<ENUM> enumClass) {
         return getList(key, enumClass);
     }
 
     // Map shortcuts
 
-    public Map optMap(Object key) {
+    public @Nullable Map optMap(final @NotNull Object key) {
         return opt(key, Map.class);
     }
 
-    public Map getMap(Object key) {
+    public @NotNull Map getMap(final @NotNull Object key) {
         return get(key, Map.class);
     }
 
-    public <KEY, VALUE> Map<KEY, VALUE> optMap(Object key, Class<KEY> keyToCast, Class<VALUE> valueToCast) {
+    public @Nullable <KEY, VALUE> Map<KEY, VALUE> optMap(final @NotNull Object key, Class<KEY> keyToCast, final @NotNull Class<VALUE> valueToCast) {
         Map map = opt(key, Map.class);
         Map<KEY, VALUE> mapCasted = new HashMap<>();
         for (Object o : map.entrySet()) {
@@ -404,15 +474,17 @@ public abstract class OptGet {
         return mapCasted;
     }
 
-    public <KEY, VALUE> Map<KEY, VALUE> getMap(Object key, Class<KEY> keyToCast, Class<VALUE> valueToCast) {
+    public @NotNull <KEY, VALUE> Map<KEY, VALUE> getMap(final @NotNull Object key, final @NotNull Class<KEY> keyToCast, Class<VALUE> valueToCast) {
         Map<KEY, VALUE> mapCasted = optMap(key, keyToCast, valueToCast);
         if (mapCasted == null) {
-            onNullValue(key.toString(), Map.class);
+            onNullValue(key, Map.class);
         }
         return mapCasted;
     }
 
-    // GENERATED-BEGIN:MAP-SHORTCUTS
+    // GENERATED-BEGIN:MAP-SHORTCUTS
+
+
     public @Nullable Map<String, String> optMapStringString(final @NotNull Object key) {
         return optMap(key, String.class, String.class);
     }
@@ -477,12 +549,12 @@ public abstract class OptGet {
         return getMap(key, String.class, OptGet.class);
     }
 
-    public @Nullable Map<String, OptGetMap> optMapStringOptGetMap(final @NotNull Object key) {
-        return optMap(key, String.class, OptGetMap.class);
+    public @Nullable Map<String, MapOptGet> optMapStringMapOptGet(final @NotNull Object key) {
+        return optMap(key, String.class, MapOptGet.class);
     }
 
-    public @NotNull Map<String, OptGetMap> getMapStringOptGetMap(final @NotNull Object key) {
-        return getMap(key, String.class, OptGetMap.class);
+    public @NotNull Map<String, MapOptGet> getMapStringMapOptGet(final @NotNull Object key) {
+        return getMap(key, String.class, MapOptGet.class);
     }
 
     public @Nullable Map<Integer, String> optMapIntegerString(final @NotNull Object key) {
@@ -549,12 +621,12 @@ public abstract class OptGet {
         return getMap(key, Integer.class, OptGet.class);
     }
 
-    public @Nullable Map<Integer, OptGetMap> optMapIntegerOptGetMap(final @NotNull Object key) {
-        return optMap(key, Integer.class, OptGetMap.class);
+    public @Nullable Map<Integer, MapOptGet> optMapIntegerMapOptGet(final @NotNull Object key) {
+        return optMap(key, Integer.class, MapOptGet.class);
     }
 
-    public @NotNull Map<Integer, OptGetMap> getMapIntegerOptGetMap(final @NotNull Object key) {
-        return getMap(key, Integer.class, OptGetMap.class);
+    public @NotNull Map<Integer, MapOptGet> getMapIntegerMapOptGet(final @NotNull Object key) {
+        return getMap(key, Integer.class, MapOptGet.class);
     }
 
     public @Nullable Map<Long, String> optMapLongString(final @NotNull Object key) {
@@ -621,12 +693,12 @@ public abstract class OptGet {
         return getMap(key, Long.class, OptGet.class);
     }
 
-    public @Nullable Map<Long, OptGetMap> optMapLongOptGetMap(final @NotNull Object key) {
-        return optMap(key, Long.class, OptGetMap.class);
+    public @Nullable Map<Long, MapOptGet> optMapLongMapOptGet(final @NotNull Object key) {
+        return optMap(key, Long.class, MapOptGet.class);
     }
 
-    public @NotNull Map<Long, OptGetMap> getMapLongOptGetMap(final @NotNull Object key) {
-        return getMap(key, Long.class, OptGetMap.class);
+    public @NotNull Map<Long, MapOptGet> getMapLongMapOptGet(final @NotNull Object key) {
+        return getMap(key, Long.class, MapOptGet.class);
     }
 
     public @Nullable Map<Float, String> optMapFloatString(final @NotNull Object key) {
@@ -693,12 +765,12 @@ public abstract class OptGet {
         return getMap(key, Float.class, OptGet.class);
     }
 
-    public @Nullable Map<Float, OptGetMap> optMapFloatOptGetMap(final @NotNull Object key) {
-        return optMap(key, Float.class, OptGetMap.class);
+    public @Nullable Map<Float, MapOptGet> optMapFloatMapOptGet(final @NotNull Object key) {
+        return optMap(key, Float.class, MapOptGet.class);
     }
 
-    public @NotNull Map<Float, OptGetMap> getMapFloatOptGetMap(final @NotNull Object key) {
-        return getMap(key, Float.class, OptGetMap.class);
+    public @NotNull Map<Float, MapOptGet> getMapFloatMapOptGet(final @NotNull Object key) {
+        return getMap(key, Float.class, MapOptGet.class);
     }
 
     public @Nullable Map<Double, String> optMapDoubleString(final @NotNull Object key) {
@@ -765,12 +837,12 @@ public abstract class OptGet {
         return getMap(key, Double.class, OptGet.class);
     }
 
-    public @Nullable Map<Double, OptGetMap> optMapDoubleOptGetMap(final @NotNull Object key) {
-        return optMap(key, Double.class, OptGetMap.class);
+    public @Nullable Map<Double, MapOptGet> optMapDoubleMapOptGet(final @NotNull Object key) {
+        return optMap(key, Double.class, MapOptGet.class);
     }
 
-    public @NotNull Map<Double, OptGetMap> getMapDoubleOptGetMap(final @NotNull Object key) {
-        return getMap(key, Double.class, OptGetMap.class);
+    public @NotNull Map<Double, MapOptGet> getMapDoubleMapOptGet(final @NotNull Object key) {
+        return getMap(key, Double.class, MapOptGet.class);
     }
 
 
