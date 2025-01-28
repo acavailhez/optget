@@ -23,9 +23,10 @@ public class GetOptTests extends AbstractTests {
                         }
                     },
                     e: [1.0, 2.0],
-                    f: "12"
+                    f: "12",
+                    g: true
                 }
-                                """, Map.class);
+                """, Map.class);
 
         json.put("c", Locale.FRENCH);
         MapOptGet map = new MapOptGet(json);
@@ -41,6 +42,7 @@ public class GetOptTests extends AbstractTests {
         Assert.assertEquals(map.get("a", String.class), "1.0");
         assert map.get("e", List.class).get(0).equals(1.0d);
         assert map.get("f", Long.class) == 12L;
+        Assert.assertEquals(true, map.getBool("g"));
 
         // opt
         assert map.opt("z") == null;
@@ -139,7 +141,7 @@ public class GetOptTests extends AbstractTests {
                         }
                     }
                 }
-                                """, Map.class));
+                """, Map.class));
         try {
             map.getInteger("d.db.dba");
         } catch (Throwable t) {
@@ -158,7 +160,7 @@ public class GetOptTests extends AbstractTests {
                         }
                     }
                 }
-                                """, Map.class));
+                """, Map.class));
         try {
             map.getInteger("d.db.dba");
         } catch (Throwable t) {
