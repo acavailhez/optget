@@ -59,17 +59,17 @@ public class GetOptTests extends AbstractTests {
         map.put("a", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5)));
         MapOptGet optget = new MapOptGet(map);
 
-        List<Long> list = optget.getListLong("a");
+        List<Long> list = optget.getListOfLong("a");
         assert list.size() == 5;
         assert list.get(2).equals(3L);
         assert list.get(2).getClass().equals(Long.class);
 
-        List<Integer> list2 = optget.getListInteger("a");
+        List<Integer> list2 = optget.getListOfInteger("a");
         assert list2.size() == 5;
         assert list2.get(2).equals(3);
         assert list2.get(2).getClass().equals(Integer.class);
 
-        List<String> list3 = optget.getListString("a");
+        List<String> list3 = optget.getListOfString("a");
         assert list3.size() == 5;
         assert list3.get(2).equals("3");
 
@@ -81,7 +81,7 @@ public class GetOptTests extends AbstractTests {
         map.put("a", new ArrayList<Serializable>(Arrays.asList("1", "2", "3", 4, 5)));
         MapOptGet optget = new MapOptGet(map);
 
-        List<Integer> list2 = optget.getListInteger("a");
+        List<Integer> list2 = optget.getListOfInteger("a");
         assert list2.size() == 5;
         assert list2.get(2).equals(3);
         assert list2.get(2).getClass().equals(Integer.class);
@@ -111,11 +111,11 @@ public class GetOptTests extends AbstractTests {
         map1.put("a", map5);
         MapOptGet optget = new MapOptGet(map1);
 
-        Map<Integer, String> map = optget.getMapIntegerString("a");
+        Map<Integer, String> map = optget.getMapOfIntegerToString("a");
         assert map.size() == 3;
         assert map.get(2).equals("two");
 
-        Map<String, String> map2 = optget.getMapStringString("a");
+        Map<String, String> map2 = optget.getMapOfStringToString("a");
         assert map2.size() == 3;
         assert map2.get("2").equals("two");
 

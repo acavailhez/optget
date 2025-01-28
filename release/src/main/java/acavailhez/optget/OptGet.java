@@ -1,7 +1,6 @@
 package acavailhez.optget;
 
 import acavailhez.optget.casts.*;
-import acavailhez.optget.wraps.MapOptGet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,7 +87,6 @@ public abstract class OptGet implements Map<Object, Object> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public @NotNull Set<Entry<Object, Object>> entrySet() {
         return keySet()
                 .stream()
@@ -230,7 +228,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, String.class);
     }
 
-    public @Nullable String optString(final @NotNull Object key, String defaultValue) {
+    public @Nullable String optString(final @NotNull Object key, final @NotNull String defaultValue) {
         return opt(key, String.class, defaultValue);
     }
 
@@ -242,7 +240,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Byte.class);
     }
 
-    public @Nullable Byte optByte(final @NotNull Object key, Byte defaultValue) {
+    public @Nullable Byte optByte(final @NotNull Object key, final @NotNull Byte defaultValue) {
         return opt(key, Byte.class, defaultValue);
     }
 
@@ -254,7 +252,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Short.class);
     }
 
-    public @Nullable Short optShort(final @NotNull Object key, Short defaultValue) {
+    public @Nullable Short optShort(final @NotNull Object key, final @NotNull Short defaultValue) {
         return opt(key, Short.class, defaultValue);
     }
 
@@ -266,7 +264,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Integer.class);
     }
 
-    public @Nullable Integer optInteger(final @NotNull Object key, Integer defaultValue) {
+    public @Nullable Integer optInteger(final @NotNull Object key, final @NotNull Integer defaultValue) {
         return opt(key, Integer.class, defaultValue);
     }
 
@@ -274,11 +272,23 @@ public abstract class OptGet implements Map<Object, Object> {
         return get(key, Integer.class);
     }
 
+    public @Nullable Integer optInt(final @NotNull Object key) {
+        return opt(key, Integer.class);
+    }
+
+    public @Nullable Integer optInt(final @NotNull Object key, final @NotNull Integer defaultValue) {
+        return opt(key, Integer.class, defaultValue);
+    }
+
+    public @NotNull Integer getInt(final @NotNull Object key) {
+        return get(key, Integer.class);
+    }
+
     public @Nullable Long optLong(final @NotNull Object key) {
         return opt(key, Long.class);
     }
 
-    public @Nullable Long optLong(final @NotNull Object key, Long defaultValue) {
+    public @Nullable Long optLong(final @NotNull Object key, final @NotNull Long defaultValue) {
         return opt(key, Long.class, defaultValue);
     }
 
@@ -290,7 +300,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Float.class);
     }
 
-    public @Nullable Float optFloat(final @NotNull Object key, Float defaultValue) {
+    public @Nullable Float optFloat(final @NotNull Object key, final @NotNull Float defaultValue) {
         return opt(key, Float.class, defaultValue);
     }
 
@@ -302,7 +312,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Double.class);
     }
 
-    public @Nullable Double optDouble(final @NotNull Object key, Double defaultValue) {
+    public @Nullable Double optDouble(final @NotNull Object key, final @NotNull Double defaultValue) {
         return opt(key, Double.class, defaultValue);
     }
 
@@ -314,7 +324,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, OptGet.class);
     }
 
-    public @Nullable OptGet optOptGet(final @NotNull Object key, OptGet defaultValue) {
+    public @Nullable OptGet optOptGet(final @NotNull Object key, final @NotNull OptGet defaultValue) {
         return opt(key, OptGet.class, defaultValue);
     }
 
@@ -322,34 +332,67 @@ public abstract class OptGet implements Map<Object, Object> {
         return get(key, OptGet.class);
     }
 
+    public @Nullable Boolean optBoolean(final @NotNull Object key) {
+        return opt(key, Boolean.class);
+    }
+
+    public @Nullable Boolean optBoolean(final @NotNull Object key, final @NotNull Boolean defaultValue) {
+        return opt(key, Boolean.class, defaultValue);
+    }
+
+    public @NotNull Boolean getBoolean(final @NotNull Object key) {
+        return get(key, Boolean.class);
+    }
+
+    public @Nullable Boolean optBool(final @NotNull Object key) {
+        return opt(key, Boolean.class);
+    }
+
+    public @Nullable Boolean optBool(final @NotNull Object key, final @NotNull Boolean defaultValue) {
+        return opt(key, Boolean.class, defaultValue);
+    }
+
+    public @NotNull Boolean getBool(final @NotNull Object key) {
+        return get(key, Boolean.class);
+    }
+
 
     // GENERATED-END:SIMPLE-SHORTCUTS
 
+    @SuppressWarnings("rawtypes")
     public @Nullable <ENUM extends Enum> ENUM optEnum(final @NotNull Object key, final @NotNull Class<ENUM> enumClass) {
         return opt(key, enumClass);
     }
 
+    @SuppressWarnings("rawtypes")
     public <ENUM extends Enum> ENUM optEnum(final @NotNull Object key, Class<ENUM> enumClass, final @NotNull ENUM defaultValue) {
         return opt(key, enumClass, defaultValue);
     }
 
+    @SuppressWarnings("rawtypes")
     public <ENUM extends Enum> ENUM getEnum(final @NotNull Object key, final @NotNull Class<ENUM> enumClass) {
         return get(key, enumClass);
     }
 
     // List shortcuts
 
+    @SuppressWarnings("rawtypes")
     public List optList(final @NotNull Object key) {
         return opt(key, List.class);
     }
 
+    @SuppressWarnings("rawtypes")
     public List getList(final @NotNull Object key) {
         return get(key, List.class);
     }
 
+    @SuppressWarnings("rawtypes")
     public <T> List<T> optList(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         List list = opt(key, List.class);
         List<T> listCasted = new LinkedList<T>();
+        if (list == null) {
+            return null;
+        }
         for (Object o : list) {
             listCasted.add(cast(o, classToCast));
         }
@@ -365,93 +408,125 @@ public abstract class OptGet implements Map<Object, Object> {
     }
 
     // GENERATED-BEGIN:LIST-SHORTCUTS
-    public @Nullable List<String> optListString(final @NotNull Object key) {
+    public @Nullable List<String> optListOfString(final @NotNull Object key) {
         return optList(key, String.class);
     }
 
-    public @NotNull List<String> getListString(final @NotNull Object key) {
+    public @NotNull List<String> getListOfString(final @NotNull Object key) {
         return getList(key, String.class);
     }
 
-    public @Nullable List<Byte> optListByte(final @NotNull Object key) {
+    public @Nullable List<Byte> optListOfByte(final @NotNull Object key) {
         return optList(key, Byte.class);
     }
 
-    public @NotNull List<Byte> getListByte(final @NotNull Object key) {
+    public @NotNull List<Byte> getListOfByte(final @NotNull Object key) {
         return getList(key, Byte.class);
     }
 
-    public @Nullable List<Short> optListShort(final @NotNull Object key) {
+    public @Nullable List<Short> optListOfShort(final @NotNull Object key) {
         return optList(key, Short.class);
     }
 
-    public @NotNull List<Short> getListShort(final @NotNull Object key) {
+    public @NotNull List<Short> getListOfShort(final @NotNull Object key) {
         return getList(key, Short.class);
     }
 
-    public @Nullable List<Integer> optListInteger(final @NotNull Object key) {
+    public @Nullable List<Integer> optListOfInteger(final @NotNull Object key) {
         return optList(key, Integer.class);
     }
 
-    public @NotNull List<Integer> getListInteger(final @NotNull Object key) {
+    public @NotNull List<Integer> getListOfInteger(final @NotNull Object key) {
         return getList(key, Integer.class);
     }
 
-    public @Nullable List<Long> optListLong(final @NotNull Object key) {
+    public @Nullable List<Integer> optListOfInt(final @NotNull Object key) {
+        return optList(key, Integer.class);
+    }
+
+    public @NotNull List<Integer> getListOfInt(final @NotNull Object key) {
+        return getList(key, Integer.class);
+    }
+
+    public @Nullable List<Long> optListOfLong(final @NotNull Object key) {
         return optList(key, Long.class);
     }
 
-    public @NotNull List<Long> getListLong(final @NotNull Object key) {
+    public @NotNull List<Long> getListOfLong(final @NotNull Object key) {
         return getList(key, Long.class);
     }
 
-    public @Nullable List<Float> optListFloat(final @NotNull Object key) {
+    public @Nullable List<Float> optListOfFloat(final @NotNull Object key) {
         return optList(key, Float.class);
     }
 
-    public @NotNull List<Float> getListFloat(final @NotNull Object key) {
+    public @NotNull List<Float> getListOfFloat(final @NotNull Object key) {
         return getList(key, Float.class);
     }
 
-    public @Nullable List<Double> optListDouble(final @NotNull Object key) {
+    public @Nullable List<Double> optListOfDouble(final @NotNull Object key) {
         return optList(key, Double.class);
     }
 
-    public @NotNull List<Double> getListDouble(final @NotNull Object key) {
+    public @NotNull List<Double> getListOfDouble(final @NotNull Object key) {
         return getList(key, Double.class);
     }
 
-    public @Nullable List<OptGet> optListOptGet(final @NotNull Object key) {
+    public @Nullable List<OptGet> optListOfOptGet(final @NotNull Object key) {
         return optList(key, OptGet.class);
     }
 
-    public @NotNull List<OptGet> getListOptGet(final @NotNull Object key) {
+    public @NotNull List<OptGet> getListOfOptGet(final @NotNull Object key) {
         return getList(key, OptGet.class);
+    }
+
+    public @Nullable List<Boolean> optListOfBoolean(final @NotNull Object key) {
+        return optList(key, Boolean.class);
+    }
+
+    public @NotNull List<Boolean> getListOfBoolean(final @NotNull Object key) {
+        return getList(key, Boolean.class);
+    }
+
+    public @Nullable List<Boolean> optListOfBool(final @NotNull Object key) {
+        return optList(key, Boolean.class);
+    }
+
+    public @NotNull List<Boolean> getListOfBool(final @NotNull Object key) {
+        return getList(key, Boolean.class);
     }
 
 
     // GENERATED-END:LIST-SHORTCUTS
 
+    @SuppressWarnings("rawtypes")
     public <ENUM extends Enum> List<ENUM> optListEnum(Object key, Class<ENUM> enumClass) {
         return optList(key, enumClass);
     }
 
+    @SuppressWarnings("rawtypes")
     public <ENUM extends Enum> List<ENUM> getListEnum(Object key, Class<ENUM> enumClass) {
         return getList(key, enumClass);
     }
 
     // Map shortcuts
 
+    @SuppressWarnings("rawtypes")
     public @Nullable Map optMap(final @NotNull Object key) {
         return opt(key, Map.class);
     }
 
+    @SuppressWarnings("rawtypes")
     public @NotNull Map getMap(final @NotNull Object key) {
         return get(key, Map.class);
     }
 
+    @SuppressWarnings("rawtypes")
     public @Nullable <KEY, VALUE> Map<KEY, VALUE> optMap(final @NotNull Object key, Class<KEY> keyToCast, final @NotNull Class<VALUE> valueToCast) {
         Map map = opt(key, Map.class);
+        if (map == null) {
+            return null;
+        }
         Map<KEY, VALUE> mapCasted = new HashMap<>();
         for (Object o : map.entrySet()) {
             Map.Entry entry = (Map.Entry) o;
@@ -465,328 +540,448 @@ public abstract class OptGet implements Map<Object, Object> {
         if (mapCasted == null) {
             onNullValue(key, Map.class);
         }
-        return mapCasted;
+        return Objects.requireNonNull(mapCasted);
     }
 
     // GENERATED-BEGIN:MAP-SHORTCUTS
-    public @Nullable Map<String, String> optMapStringString(final @NotNull Object key) {
+    public @Nullable Map<String, String> optMapOfStringToString(final @NotNull Object key) {
         return optMap(key, String.class, String.class);
     }
 
-    public @NotNull Map<String, String> getMapStringString(final @NotNull Object key) {
+    public @NotNull Map<String, String> getMapOfStringToString(final @NotNull Object key) {
         return getMap(key, String.class, String.class);
     }
 
-    public @Nullable Map<String, Byte> optMapStringByte(final @NotNull Object key) {
+    public @Nullable Map<String, Byte> optMapOfStringToByte(final @NotNull Object key) {
         return optMap(key, String.class, Byte.class);
     }
 
-    public @NotNull Map<String, Byte> getMapStringByte(final @NotNull Object key) {
+    public @NotNull Map<String, Byte> getMapOfStringToByte(final @NotNull Object key) {
         return getMap(key, String.class, Byte.class);
     }
 
-    public @Nullable Map<String, Short> optMapStringShort(final @NotNull Object key) {
+    public @Nullable Map<String, Short> optMapOfStringToShort(final @NotNull Object key) {
         return optMap(key, String.class, Short.class);
     }
 
-    public @NotNull Map<String, Short> getMapStringShort(final @NotNull Object key) {
+    public @NotNull Map<String, Short> getMapOfStringToShort(final @NotNull Object key) {
         return getMap(key, String.class, Short.class);
     }
 
-    public @Nullable Map<String, Integer> optMapStringInteger(final @NotNull Object key) {
+    public @Nullable Map<String, Integer> optMapOfStringToInteger(final @NotNull Object key) {
         return optMap(key, String.class, Integer.class);
     }
 
-    public @NotNull Map<String, Integer> getMapStringInteger(final @NotNull Object key) {
+    public @NotNull Map<String, Integer> getMapOfStringToInteger(final @NotNull Object key) {
         return getMap(key, String.class, Integer.class);
     }
 
-    public @Nullable Map<String, Long> optMapStringLong(final @NotNull Object key) {
+    public @Nullable Map<String, Integer> optMapOfStringToInt(final @NotNull Object key) {
+        return optMap(key, String.class, Integer.class);
+    }
+
+    public @NotNull Map<String, Integer> getMapOfStringToInt(final @NotNull Object key) {
+        return getMap(key, String.class, Integer.class);
+    }
+
+    public @Nullable Map<String, Long> optMapOfStringToLong(final @NotNull Object key) {
         return optMap(key, String.class, Long.class);
     }
 
-    public @NotNull Map<String, Long> getMapStringLong(final @NotNull Object key) {
+    public @NotNull Map<String, Long> getMapOfStringToLong(final @NotNull Object key) {
         return getMap(key, String.class, Long.class);
     }
 
-    public @Nullable Map<String, Float> optMapStringFloat(final @NotNull Object key) {
+    public @Nullable Map<String, Float> optMapOfStringToFloat(final @NotNull Object key) {
         return optMap(key, String.class, Float.class);
     }
 
-    public @NotNull Map<String, Float> getMapStringFloat(final @NotNull Object key) {
+    public @NotNull Map<String, Float> getMapOfStringToFloat(final @NotNull Object key) {
         return getMap(key, String.class, Float.class);
     }
 
-    public @Nullable Map<String, Double> optMapStringDouble(final @NotNull Object key) {
+    public @Nullable Map<String, Double> optMapOfStringToDouble(final @NotNull Object key) {
         return optMap(key, String.class, Double.class);
     }
 
-    public @NotNull Map<String, Double> getMapStringDouble(final @NotNull Object key) {
+    public @NotNull Map<String, Double> getMapOfStringToDouble(final @NotNull Object key) {
         return getMap(key, String.class, Double.class);
     }
 
-    public @Nullable Map<String, OptGet> optMapStringOptGet(final @NotNull Object key) {
+    public @Nullable Map<String, OptGet> optMapOfStringToOptGet(final @NotNull Object key) {
         return optMap(key, String.class, OptGet.class);
     }
 
-    public @NotNull Map<String, OptGet> getMapStringOptGet(final @NotNull Object key) {
+    public @NotNull Map<String, OptGet> getMapOfStringToOptGet(final @NotNull Object key) {
         return getMap(key, String.class, OptGet.class);
     }
 
-    public @Nullable Map<Integer, String> optMapIntegerString(final @NotNull Object key) {
+    public @Nullable Map<String, Boolean> optMapOfStringToBoolean(final @NotNull Object key) {
+        return optMap(key, String.class, Boolean.class);
+    }
+
+    public @NotNull Map<String, Boolean> getMapOfStringToBoolean(final @NotNull Object key) {
+        return getMap(key, String.class, Boolean.class);
+    }
+
+    public @Nullable Map<String, Boolean> optMapOfStringToBool(final @NotNull Object key) {
+        return optMap(key, String.class, Boolean.class);
+    }
+
+    public @NotNull Map<String, Boolean> getMapOfStringToBool(final @NotNull Object key) {
+        return getMap(key, String.class, Boolean.class);
+    }
+
+    public @Nullable Map<Integer, String> optMapOfIntegerToString(final @NotNull Object key) {
         return optMap(key, Integer.class, String.class);
     }
 
-    public @NotNull Map<Integer, String> getMapIntegerString(final @NotNull Object key) {
+    public @NotNull Map<Integer, String> getMapOfIntegerToString(final @NotNull Object key) {
         return getMap(key, Integer.class, String.class);
     }
 
-    public @Nullable Map<Integer, Byte> optMapIntegerByte(final @NotNull Object key) {
+    public @Nullable Map<Integer, Byte> optMapOfIntegerToByte(final @NotNull Object key) {
         return optMap(key, Integer.class, Byte.class);
     }
 
-    public @NotNull Map<Integer, Byte> getMapIntegerByte(final @NotNull Object key) {
+    public @NotNull Map<Integer, Byte> getMapOfIntegerToByte(final @NotNull Object key) {
         return getMap(key, Integer.class, Byte.class);
     }
 
-    public @Nullable Map<Integer, Short> optMapIntegerShort(final @NotNull Object key) {
+    public @Nullable Map<Integer, Short> optMapOfIntegerToShort(final @NotNull Object key) {
         return optMap(key, Integer.class, Short.class);
     }
 
-    public @NotNull Map<Integer, Short> getMapIntegerShort(final @NotNull Object key) {
+    public @NotNull Map<Integer, Short> getMapOfIntegerToShort(final @NotNull Object key) {
         return getMap(key, Integer.class, Short.class);
     }
 
-    public @Nullable Map<Integer, Integer> optMapIntegerInteger(final @NotNull Object key) {
+    public @Nullable Map<Integer, Integer> optMapOfIntegerToInteger(final @NotNull Object key) {
         return optMap(key, Integer.class, Integer.class);
     }
 
-    public @NotNull Map<Integer, Integer> getMapIntegerInteger(final @NotNull Object key) {
+    public @NotNull Map<Integer, Integer> getMapOfIntegerToInteger(final @NotNull Object key) {
         return getMap(key, Integer.class, Integer.class);
     }
 
-    public @Nullable Map<Integer, Long> optMapIntegerLong(final @NotNull Object key) {
+    public @Nullable Map<Integer, Integer> optMapOfIntegerToInt(final @NotNull Object key) {
+        return optMap(key, Integer.class, Integer.class);
+    }
+
+    public @NotNull Map<Integer, Integer> getMapOfIntegerToInt(final @NotNull Object key) {
+        return getMap(key, Integer.class, Integer.class);
+    }
+
+    public @Nullable Map<Integer, Long> optMapOfIntegerToLong(final @NotNull Object key) {
         return optMap(key, Integer.class, Long.class);
     }
 
-    public @NotNull Map<Integer, Long> getMapIntegerLong(final @NotNull Object key) {
+    public @NotNull Map<Integer, Long> getMapOfIntegerToLong(final @NotNull Object key) {
         return getMap(key, Integer.class, Long.class);
     }
 
-    public @Nullable Map<Integer, Float> optMapIntegerFloat(final @NotNull Object key) {
+    public @Nullable Map<Integer, Float> optMapOfIntegerToFloat(final @NotNull Object key) {
         return optMap(key, Integer.class, Float.class);
     }
 
-    public @NotNull Map<Integer, Float> getMapIntegerFloat(final @NotNull Object key) {
+    public @NotNull Map<Integer, Float> getMapOfIntegerToFloat(final @NotNull Object key) {
         return getMap(key, Integer.class, Float.class);
     }
 
-    public @Nullable Map<Integer, Double> optMapIntegerDouble(final @NotNull Object key) {
+    public @Nullable Map<Integer, Double> optMapOfIntegerToDouble(final @NotNull Object key) {
         return optMap(key, Integer.class, Double.class);
     }
 
-    public @NotNull Map<Integer, Double> getMapIntegerDouble(final @NotNull Object key) {
+    public @NotNull Map<Integer, Double> getMapOfIntegerToDouble(final @NotNull Object key) {
         return getMap(key, Integer.class, Double.class);
     }
 
-    public @Nullable Map<Integer, OptGet> optMapIntegerOptGet(final @NotNull Object key) {
+    public @Nullable Map<Integer, OptGet> optMapOfIntegerToOptGet(final @NotNull Object key) {
         return optMap(key, Integer.class, OptGet.class);
     }
 
-    public @NotNull Map<Integer, OptGet> getMapIntegerOptGet(final @NotNull Object key) {
+    public @NotNull Map<Integer, OptGet> getMapOfIntegerToOptGet(final @NotNull Object key) {
         return getMap(key, Integer.class, OptGet.class);
     }
 
-    public @Nullable Map<Long, String> optMapLongString(final @NotNull Object key) {
+    public @Nullable Map<Integer, Boolean> optMapOfIntegerToBoolean(final @NotNull Object key) {
+        return optMap(key, Integer.class, Boolean.class);
+    }
+
+    public @NotNull Map<Integer, Boolean> getMapOfIntegerToBoolean(final @NotNull Object key) {
+        return getMap(key, Integer.class, Boolean.class);
+    }
+
+    public @Nullable Map<Integer, Boolean> optMapOfIntegerToBool(final @NotNull Object key) {
+        return optMap(key, Integer.class, Boolean.class);
+    }
+
+    public @NotNull Map<Integer, Boolean> getMapOfIntegerToBool(final @NotNull Object key) {
+        return getMap(key, Integer.class, Boolean.class);
+    }
+
+    public @Nullable Map<Long, String> optMapOfLongToString(final @NotNull Object key) {
         return optMap(key, Long.class, String.class);
     }
 
-    public @NotNull Map<Long, String> getMapLongString(final @NotNull Object key) {
+    public @NotNull Map<Long, String> getMapOfLongToString(final @NotNull Object key) {
         return getMap(key, Long.class, String.class);
     }
 
-    public @Nullable Map<Long, Byte> optMapLongByte(final @NotNull Object key) {
+    public @Nullable Map<Long, Byte> optMapOfLongToByte(final @NotNull Object key) {
         return optMap(key, Long.class, Byte.class);
     }
 
-    public @NotNull Map<Long, Byte> getMapLongByte(final @NotNull Object key) {
+    public @NotNull Map<Long, Byte> getMapOfLongToByte(final @NotNull Object key) {
         return getMap(key, Long.class, Byte.class);
     }
 
-    public @Nullable Map<Long, Short> optMapLongShort(final @NotNull Object key) {
+    public @Nullable Map<Long, Short> optMapOfLongToShort(final @NotNull Object key) {
         return optMap(key, Long.class, Short.class);
     }
 
-    public @NotNull Map<Long, Short> getMapLongShort(final @NotNull Object key) {
+    public @NotNull Map<Long, Short> getMapOfLongToShort(final @NotNull Object key) {
         return getMap(key, Long.class, Short.class);
     }
 
-    public @Nullable Map<Long, Integer> optMapLongInteger(final @NotNull Object key) {
+    public @Nullable Map<Long, Integer> optMapOfLongToInteger(final @NotNull Object key) {
         return optMap(key, Long.class, Integer.class);
     }
 
-    public @NotNull Map<Long, Integer> getMapLongInteger(final @NotNull Object key) {
+    public @NotNull Map<Long, Integer> getMapOfLongToInteger(final @NotNull Object key) {
         return getMap(key, Long.class, Integer.class);
     }
 
-    public @Nullable Map<Long, Long> optMapLongLong(final @NotNull Object key) {
+    public @Nullable Map<Long, Integer> optMapOfLongToInt(final @NotNull Object key) {
+        return optMap(key, Long.class, Integer.class);
+    }
+
+    public @NotNull Map<Long, Integer> getMapOfLongToInt(final @NotNull Object key) {
+        return getMap(key, Long.class, Integer.class);
+    }
+
+    public @Nullable Map<Long, Long> optMapOfLongToLong(final @NotNull Object key) {
         return optMap(key, Long.class, Long.class);
     }
 
-    public @NotNull Map<Long, Long> getMapLongLong(final @NotNull Object key) {
+    public @NotNull Map<Long, Long> getMapOfLongToLong(final @NotNull Object key) {
         return getMap(key, Long.class, Long.class);
     }
 
-    public @Nullable Map<Long, Float> optMapLongFloat(final @NotNull Object key) {
+    public @Nullable Map<Long, Float> optMapOfLongToFloat(final @NotNull Object key) {
         return optMap(key, Long.class, Float.class);
     }
 
-    public @NotNull Map<Long, Float> getMapLongFloat(final @NotNull Object key) {
+    public @NotNull Map<Long, Float> getMapOfLongToFloat(final @NotNull Object key) {
         return getMap(key, Long.class, Float.class);
     }
 
-    public @Nullable Map<Long, Double> optMapLongDouble(final @NotNull Object key) {
+    public @Nullable Map<Long, Double> optMapOfLongToDouble(final @NotNull Object key) {
         return optMap(key, Long.class, Double.class);
     }
 
-    public @NotNull Map<Long, Double> getMapLongDouble(final @NotNull Object key) {
+    public @NotNull Map<Long, Double> getMapOfLongToDouble(final @NotNull Object key) {
         return getMap(key, Long.class, Double.class);
     }
 
-    public @Nullable Map<Long, OptGet> optMapLongOptGet(final @NotNull Object key) {
+    public @Nullable Map<Long, OptGet> optMapOfLongToOptGet(final @NotNull Object key) {
         return optMap(key, Long.class, OptGet.class);
     }
 
-    public @NotNull Map<Long, OptGet> getMapLongOptGet(final @NotNull Object key) {
+    public @NotNull Map<Long, OptGet> getMapOfLongToOptGet(final @NotNull Object key) {
         return getMap(key, Long.class, OptGet.class);
     }
 
-    public @Nullable Map<Float, String> optMapFloatString(final @NotNull Object key) {
+    public @Nullable Map<Long, Boolean> optMapOfLongToBoolean(final @NotNull Object key) {
+        return optMap(key, Long.class, Boolean.class);
+    }
+
+    public @NotNull Map<Long, Boolean> getMapOfLongToBoolean(final @NotNull Object key) {
+        return getMap(key, Long.class, Boolean.class);
+    }
+
+    public @Nullable Map<Long, Boolean> optMapOfLongToBool(final @NotNull Object key) {
+        return optMap(key, Long.class, Boolean.class);
+    }
+
+    public @NotNull Map<Long, Boolean> getMapOfLongToBool(final @NotNull Object key) {
+        return getMap(key, Long.class, Boolean.class);
+    }
+
+    public @Nullable Map<Float, String> optMapOfFloatToString(final @NotNull Object key) {
         return optMap(key, Float.class, String.class);
     }
 
-    public @NotNull Map<Float, String> getMapFloatString(final @NotNull Object key) {
+    public @NotNull Map<Float, String> getMapOfFloatToString(final @NotNull Object key) {
         return getMap(key, Float.class, String.class);
     }
 
-    public @Nullable Map<Float, Byte> optMapFloatByte(final @NotNull Object key) {
+    public @Nullable Map<Float, Byte> optMapOfFloatToByte(final @NotNull Object key) {
         return optMap(key, Float.class, Byte.class);
     }
 
-    public @NotNull Map<Float, Byte> getMapFloatByte(final @NotNull Object key) {
+    public @NotNull Map<Float, Byte> getMapOfFloatToByte(final @NotNull Object key) {
         return getMap(key, Float.class, Byte.class);
     }
 
-    public @Nullable Map<Float, Short> optMapFloatShort(final @NotNull Object key) {
+    public @Nullable Map<Float, Short> optMapOfFloatToShort(final @NotNull Object key) {
         return optMap(key, Float.class, Short.class);
     }
 
-    public @NotNull Map<Float, Short> getMapFloatShort(final @NotNull Object key) {
+    public @NotNull Map<Float, Short> getMapOfFloatToShort(final @NotNull Object key) {
         return getMap(key, Float.class, Short.class);
     }
 
-    public @Nullable Map<Float, Integer> optMapFloatInteger(final @NotNull Object key) {
+    public @Nullable Map<Float, Integer> optMapOfFloatToInteger(final @NotNull Object key) {
         return optMap(key, Float.class, Integer.class);
     }
 
-    public @NotNull Map<Float, Integer> getMapFloatInteger(final @NotNull Object key) {
+    public @NotNull Map<Float, Integer> getMapOfFloatToInteger(final @NotNull Object key) {
         return getMap(key, Float.class, Integer.class);
     }
 
-    public @Nullable Map<Float, Long> optMapFloatLong(final @NotNull Object key) {
+    public @Nullable Map<Float, Integer> optMapOfFloatToInt(final @NotNull Object key) {
+        return optMap(key, Float.class, Integer.class);
+    }
+
+    public @NotNull Map<Float, Integer> getMapOfFloatToInt(final @NotNull Object key) {
+        return getMap(key, Float.class, Integer.class);
+    }
+
+    public @Nullable Map<Float, Long> optMapOfFloatToLong(final @NotNull Object key) {
         return optMap(key, Float.class, Long.class);
     }
 
-    public @NotNull Map<Float, Long> getMapFloatLong(final @NotNull Object key) {
+    public @NotNull Map<Float, Long> getMapOfFloatToLong(final @NotNull Object key) {
         return getMap(key, Float.class, Long.class);
     }
 
-    public @Nullable Map<Float, Float> optMapFloatFloat(final @NotNull Object key) {
+    public @Nullable Map<Float, Float> optMapOfFloatToFloat(final @NotNull Object key) {
         return optMap(key, Float.class, Float.class);
     }
 
-    public @NotNull Map<Float, Float> getMapFloatFloat(final @NotNull Object key) {
+    public @NotNull Map<Float, Float> getMapOfFloatToFloat(final @NotNull Object key) {
         return getMap(key, Float.class, Float.class);
     }
 
-    public @Nullable Map<Float, Double> optMapFloatDouble(final @NotNull Object key) {
+    public @Nullable Map<Float, Double> optMapOfFloatToDouble(final @NotNull Object key) {
         return optMap(key, Float.class, Double.class);
     }
 
-    public @NotNull Map<Float, Double> getMapFloatDouble(final @NotNull Object key) {
+    public @NotNull Map<Float, Double> getMapOfFloatToDouble(final @NotNull Object key) {
         return getMap(key, Float.class, Double.class);
     }
 
-    public @Nullable Map<Float, OptGet> optMapFloatOptGet(final @NotNull Object key) {
+    public @Nullable Map<Float, OptGet> optMapOfFloatToOptGet(final @NotNull Object key) {
         return optMap(key, Float.class, OptGet.class);
     }
 
-    public @NotNull Map<Float, OptGet> getMapFloatOptGet(final @NotNull Object key) {
+    public @NotNull Map<Float, OptGet> getMapOfFloatToOptGet(final @NotNull Object key) {
         return getMap(key, Float.class, OptGet.class);
     }
 
-    public @Nullable Map<Double, String> optMapDoubleString(final @NotNull Object key) {
+    public @Nullable Map<Float, Boolean> optMapOfFloatToBoolean(final @NotNull Object key) {
+        return optMap(key, Float.class, Boolean.class);
+    }
+
+    public @NotNull Map<Float, Boolean> getMapOfFloatToBoolean(final @NotNull Object key) {
+        return getMap(key, Float.class, Boolean.class);
+    }
+
+    public @Nullable Map<Float, Boolean> optMapOfFloatToBool(final @NotNull Object key) {
+        return optMap(key, Float.class, Boolean.class);
+    }
+
+    public @NotNull Map<Float, Boolean> getMapOfFloatToBool(final @NotNull Object key) {
+        return getMap(key, Float.class, Boolean.class);
+    }
+
+    public @Nullable Map<Double, String> optMapOfDoubleToString(final @NotNull Object key) {
         return optMap(key, Double.class, String.class);
     }
 
-    public @NotNull Map<Double, String> getMapDoubleString(final @NotNull Object key) {
+    public @NotNull Map<Double, String> getMapOfDoubleToString(final @NotNull Object key) {
         return getMap(key, Double.class, String.class);
     }
 
-    public @Nullable Map<Double, Byte> optMapDoubleByte(final @NotNull Object key) {
+    public @Nullable Map<Double, Byte> optMapOfDoubleToByte(final @NotNull Object key) {
         return optMap(key, Double.class, Byte.class);
     }
 
-    public @NotNull Map<Double, Byte> getMapDoubleByte(final @NotNull Object key) {
+    public @NotNull Map<Double, Byte> getMapOfDoubleToByte(final @NotNull Object key) {
         return getMap(key, Double.class, Byte.class);
     }
 
-    public @Nullable Map<Double, Short> optMapDoubleShort(final @NotNull Object key) {
+    public @Nullable Map<Double, Short> optMapOfDoubleToShort(final @NotNull Object key) {
         return optMap(key, Double.class, Short.class);
     }
 
-    public @NotNull Map<Double, Short> getMapDoubleShort(final @NotNull Object key) {
+    public @NotNull Map<Double, Short> getMapOfDoubleToShort(final @NotNull Object key) {
         return getMap(key, Double.class, Short.class);
     }
 
-    public @Nullable Map<Double, Integer> optMapDoubleInteger(final @NotNull Object key) {
+    public @Nullable Map<Double, Integer> optMapOfDoubleToInteger(final @NotNull Object key) {
         return optMap(key, Double.class, Integer.class);
     }
 
-    public @NotNull Map<Double, Integer> getMapDoubleInteger(final @NotNull Object key) {
+    public @NotNull Map<Double, Integer> getMapOfDoubleToInteger(final @NotNull Object key) {
         return getMap(key, Double.class, Integer.class);
     }
 
-    public @Nullable Map<Double, Long> optMapDoubleLong(final @NotNull Object key) {
+    public @Nullable Map<Double, Integer> optMapOfDoubleToInt(final @NotNull Object key) {
+        return optMap(key, Double.class, Integer.class);
+    }
+
+    public @NotNull Map<Double, Integer> getMapOfDoubleToInt(final @NotNull Object key) {
+        return getMap(key, Double.class, Integer.class);
+    }
+
+    public @Nullable Map<Double, Long> optMapOfDoubleToLong(final @NotNull Object key) {
         return optMap(key, Double.class, Long.class);
     }
 
-    public @NotNull Map<Double, Long> getMapDoubleLong(final @NotNull Object key) {
+    public @NotNull Map<Double, Long> getMapOfDoubleToLong(final @NotNull Object key) {
         return getMap(key, Double.class, Long.class);
     }
 
-    public @Nullable Map<Double, Float> optMapDoubleFloat(final @NotNull Object key) {
+    public @Nullable Map<Double, Float> optMapOfDoubleToFloat(final @NotNull Object key) {
         return optMap(key, Double.class, Float.class);
     }
 
-    public @NotNull Map<Double, Float> getMapDoubleFloat(final @NotNull Object key) {
+    public @NotNull Map<Double, Float> getMapOfDoubleToFloat(final @NotNull Object key) {
         return getMap(key, Double.class, Float.class);
     }
 
-    public @Nullable Map<Double, Double> optMapDoubleDouble(final @NotNull Object key) {
+    public @Nullable Map<Double, Double> optMapOfDoubleToDouble(final @NotNull Object key) {
         return optMap(key, Double.class, Double.class);
     }
 
-    public @NotNull Map<Double, Double> getMapDoubleDouble(final @NotNull Object key) {
+    public @NotNull Map<Double, Double> getMapOfDoubleToDouble(final @NotNull Object key) {
         return getMap(key, Double.class, Double.class);
     }
 
-    public @Nullable Map<Double, OptGet> optMapDoubleOptGet(final @NotNull Object key) {
+    public @Nullable Map<Double, OptGet> optMapOfDoubleToOptGet(final @NotNull Object key) {
         return optMap(key, Double.class, OptGet.class);
     }
 
-    public @NotNull Map<Double, OptGet> getMapDoubleOptGet(final @NotNull Object key) {
+    public @NotNull Map<Double, OptGet> getMapOfDoubleToOptGet(final @NotNull Object key) {
         return getMap(key, Double.class, OptGet.class);
+    }
+
+    public @Nullable Map<Double, Boolean> optMapOfDoubleToBoolean(final @NotNull Object key) {
+        return optMap(key, Double.class, Boolean.class);
+    }
+
+    public @NotNull Map<Double, Boolean> getMapOfDoubleToBoolean(final @NotNull Object key) {
+        return getMap(key, Double.class, Boolean.class);
+    }
+
+    public @Nullable Map<Double, Boolean> optMapOfDoubleToBool(final @NotNull Object key) {
+        return optMap(key, Double.class, Boolean.class);
+    }
+
+    public @NotNull Map<Double, Boolean> getMapOfDoubleToBool(final @NotNull Object key) {
+        return getMap(key, Double.class, Boolean.class);
     }
 
 

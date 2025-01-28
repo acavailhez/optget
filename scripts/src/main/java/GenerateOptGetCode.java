@@ -1,5 +1,3 @@
-import acavailhez.optget.OptGet;
-import acavailhez.optget.OptGetMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +11,10 @@ public class GenerateOptGetCode {
     private static final Logger log = LogManager.getLogger(GenerateOptGetCode.class);
 
     // All classes that will have a shortcut in acavailhez.optget.OptGet
-    private final static List<Class> SHORTCUT_CLASSES = new ArrayList<>();
+    private final static List<CodeClass> SHORTCUT_CLASSES = new ArrayList<>();
 
     // All classes that will have shortcuts in the map utils, as a key
-    private final static List<Class> MAP_KEY_CLASSES = new ArrayList<>();
+    private final static List<CodeClass> MAP_KEY_CLASSES = new ArrayList<>();
 
     private final static String BR = System.lineSeparator();
     private final static String TAB = "    ";
@@ -25,48 +23,49 @@ public class GenerateOptGetCode {
         log.info("hello");
         log.info("Generating source code for OptGet");
 
-        SHORTCUT_CLASSES.add(String.class);
-        SHORTCUT_CLASSES.add(Byte.class);
-        SHORTCUT_CLASSES.add(Short.class);
-        SHORTCUT_CLASSES.add(Integer.class);
-        SHORTCUT_CLASSES.add(Long.class);
-        SHORTCUT_CLASSES.add(Float.class);
-        SHORTCUT_CLASSES.add(Double.class);
-        SHORTCUT_CLASSES.add(OptGet.class);
+        SHORTCUT_CLASSES.add(new CodeClass("String"));
+        SHORTCUT_CLASSES.add(new CodeClass("Byte"));
+        SHORTCUT_CLASSES.add(new CodeClass("Short"));
+        SHORTCUT_CLASSES.add(new CodeClass("Integer"));
+        SHORTCUT_CLASSES.add(new CodeClass("Integer", "Int"));
+        SHORTCUT_CLASSES.add(new CodeClass("Long"));
+        SHORTCUT_CLASSES.add(new CodeClass("Float"));
+        SHORTCUT_CLASSES.add(new CodeClass("Double"));
+        SHORTCUT_CLASSES.add(new CodeClass("OptGet"));
+        SHORTCUT_CLASSES.add(new CodeClass("Boolean"));
+        SHORTCUT_CLASSES.add(new CodeClass("Boolean", "Bool"));
 
-        MAP_KEY_CLASSES.add(String.class);
-        MAP_KEY_CLASSES.add(Integer.class);
-        MAP_KEY_CLASSES.add(Long.class);
-        MAP_KEY_CLASSES.add(Float.class);
-        MAP_KEY_CLASSES.add(Double.class);
+        MAP_KEY_CLASSES.add(new CodeClass("String"));
+        MAP_KEY_CLASSES.add(new CodeClass("Integer"));
+        MAP_KEY_CLASSES.add(new CodeClass("Long"));
+        MAP_KEY_CLASSES.add(new CodeClass("Float"));
+        MAP_KEY_CLASSES.add(new CodeClass("Double"));
 
         File model = new File("./release/src/main/java/acavailhez/optget/OptGet.java");
         String code = FileUtils.readFileToString(model, "UTF-8");
 
-
-        String code2 = insertGenerated(code, "SIMPLE-SHORTCUTS", "test");
-
         // Simple shortcuts
         String simpleShortcuts = "";
-        for (Class classToCast : SHORTCUT_CLASSES) {
+        for (CodeClass classToCast : SHORTCUT_CLASSES) {
 
-            String name = classToCast.getSimpleName();
+            String className = classToCast.className;
+            String alias = classToCast.alias;
 
             // Generate "optString(key)" method
-            simpleShortcuts += TAB + "public @Nullable " + name + " opt" + name + "(final @NotNull Object key) {" + BR;
-            simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class);" + BR;
+            simpleShortcuts += TAB + "public @Nullable " + className + " opt" + alias + "(final @NotNull Object key) {" + BR;
+            simpleShortcuts += TAB + TAB + "return opt(key, " + className + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "optString(key, default)" method
-            simpleShortcuts += TAB + "public @Nullable " + name + " opt" + name + "(final @NotNull Object key, " + name + " defaultValue) {" + BR;
-            simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class, defaultValue);" + BR;
+            simpleShortcuts += TAB + "public @Nullable " + className + " opt" + alias + "(final @NotNull Object key, final @NotNull " + className + " defaultValue) {" + BR;
+            simpleShortcuts += TAB + TAB + "return opt(key, " + className + ".class, defaultValue);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "getString(key)" method
-            simpleShortcuts += TAB + "public @NotNull " + name + " get" + name + "(final @NotNull Object key) {" + BR;
-            simpleShortcuts += TAB + TAB + "return get(key, " + name + ".class);" + BR;
+            simpleShortcuts += TAB + "public @NotNull " + className + " get" + alias + "(final @NotNull Object key) {" + BR;
+            simpleShortcuts += TAB + TAB + "return get(key, " + className + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
         }
@@ -74,19 +73,20 @@ public class GenerateOptGetCode {
 
         // List shortcuts
         String listShortcuts = "";
-        for (Class classToCast : SHORTCUT_CLASSES) {
+        for (CodeClass classToCast : SHORTCUT_CLASSES) {
 
-            String name = classToCast.getSimpleName();
+            String className = classToCast.className;
+            String alias = classToCast.alias;
 
             // Generate "optListString(key)" method
-            listShortcuts += TAB + "public @Nullable List<" + name + "> optList" + name + "(final @NotNull Object key) {" + BR;
-            listShortcuts += TAB + TAB + "return optList(key, " + name + ".class);" + BR;
+            listShortcuts += TAB + "public @Nullable List<" + className + "> optListOf" + alias + "(final @NotNull Object key) {" + BR;
+            listShortcuts += TAB + TAB + "return optList(key, " + className + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
 
             // Generate "getListString(key)" method
-            listShortcuts += TAB + "public @NotNull List<" + name + "> getList" + name + "(final @NotNull Object key) {" + BR;
-            listShortcuts += TAB + TAB + "return getList(key, " + name + ".class);" + BR;
+            listShortcuts += TAB + "public @NotNull List<" + className + "> getListOf" + alias + "(final @NotNull Object key) {" + BR;
+            listShortcuts += TAB + TAB + "return getList(key, " + className + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
         }
@@ -94,20 +94,25 @@ public class GenerateOptGetCode {
         code = insertGenerated(code, "LIST-SHORTCUTS", listShortcuts);
 
         String mapShortcuts = "";
-        for (Class keyToCast : MAP_KEY_CLASSES) {
-            String key = keyToCast.getSimpleName();
-            for (Class valueToCast : SHORTCUT_CLASSES) {
-                String value = valueToCast.getSimpleName();
+        for (CodeClass keyToCast : MAP_KEY_CLASSES) {
+
+            String keyClassName = keyToCast.className;
+            String keyAlias = keyToCast.alias;
+
+            for (CodeClass valueToCast : SHORTCUT_CLASSES) {
+
+                String valueClassName = valueToCast.className;
+                String valueAlias = valueToCast.alias;
 
                 // Generate "optMapStringObject(key)" method
-                mapShortcuts += TAB + "public @Nullable Map<" + key + ", " + value + "> optMap" + key + value + "(final @NotNull Object key) {" + BR;
-                mapShortcuts += TAB + TAB + "return optMap(key, " + key + ".class, " + value + ".class);" + BR;
+                mapShortcuts += TAB + "public @Nullable Map<" + keyClassName + ", " + valueClassName + "> optMapOf" + keyAlias + "To" + valueAlias + "(final @NotNull Object key) {" + BR;
+                mapShortcuts += TAB + TAB + "return optMap(key, " + keyClassName + ".class, " + valueClassName + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
 
                 // Generate "getMapStringObject(key)" method
-                mapShortcuts += TAB + "public @NotNull Map<" + key + ", " + value + "> getMap" + key + value + "(final @NotNull Object key) {" + BR;
-                mapShortcuts += TAB + TAB + "return getMap(key, " + key + ".class, " + value + ".class);" + BR;
+                mapShortcuts += TAB + "public @NotNull Map<" + keyClassName + ", " + valueClassName + "> getMapOf" + keyAlias + "To" + valueAlias + "(final @NotNull Object key) {" + BR;
+                mapShortcuts += TAB + TAB + "return getMap(key, " + keyClassName + ".class, " + valueClassName + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
             }
