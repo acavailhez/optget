@@ -21,12 +21,14 @@ public abstract class OptGet implements Map<Object, Object> {
 
     // init
     protected OptGet() {
+        addCast(new StringCast());
         addCast(new LongCast());
         addCast(new IntegerCast());
         addCast(new ShortCast());
         addCast(new ByteCast());
         addCast(new FloatCast());
         addCast(new DoubleCast());
+        addCast(new OptGetCast());
     }
 
     // #####################
@@ -201,6 +203,12 @@ public abstract class OptGet implements Map<Object, Object> {
 
     @SuppressWarnings("unchecked")
     private <T> @NotNull T cast(final @NotNull Object unknown, final @NotNull Class<T> classToCast) {
+        if (classToCast == Object.class) {
+            return (T) unknown;
+        }
+        if(classToCast.isAssignableFrom(unknown.getClass())) {
+            return (T) unknown;
+        }
         if (castors.containsKey(classToCast)) {
             return (T) castors.get(classToCast).cast(unknown, this.castMode);
         } else {

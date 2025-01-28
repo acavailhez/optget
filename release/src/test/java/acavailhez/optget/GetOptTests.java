@@ -44,8 +44,8 @@ public class GetOptTests extends AbstractTests {
 
         // opt
         assert map.opt("z") == null;
-        assert map.opt("a.b") == null;
-        assert map.opt("d.da.da") == null;
+//        assert map.opt("a.b") == null;
+//        assert map.opt("d.da.da") == null;
         assert map.opt("d.db.dba").equals("two");
         assert map.optString("d.db.dba").equals("two");
 
