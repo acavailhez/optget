@@ -1,8 +1,6 @@
 package acavailhez.optget;
 
-import acavailhez.optget.casts.AbstractCast;
-import acavailhez.optget.casts.CastMode;
-import acavailhez.optget.casts.IntegerCast;
+import acavailhez.optget.casts.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +16,12 @@ public abstract class OptGet {
 
     // init
     protected OptGet() {
+        addCast(new LongCast());
         addCast(new IntegerCast());
+        addCast(new ShortCast());
+        addCast(new ByteCast());
+        addCast(new FloatCast());
+        addCast(new DoubleCast());
     }
 
     // #####################
