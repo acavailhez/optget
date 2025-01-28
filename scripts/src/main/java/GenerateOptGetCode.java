@@ -33,7 +33,6 @@ public class GenerateOptGetCode {
         SHORTCUT_CLASSES.add(Float.class);
         SHORTCUT_CLASSES.add(Double.class);
         SHORTCUT_CLASSES.add(OptGet.class);
-        SHORTCUT_CLASSES.add(OptGetMap.class);
 
         MAP_KEY_CLASSES.add(String.class);
         MAP_KEY_CLASSES.add(Integer.class);

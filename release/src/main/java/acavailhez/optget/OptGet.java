@@ -225,9 +225,7 @@ public abstract class OptGet implements Map<Object, Object> {
 
     // Simple shortcuts
 
-    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
-
-
+    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
     public @Nullable String optString(final @NotNull Object key) {
         return opt(key, String.class);
     }
@@ -324,18 +322,6 @@ public abstract class OptGet implements Map<Object, Object> {
         return get(key, OptGet.class);
     }
 
-    public @Nullable MapOptGet optMapOptGet(final @NotNull Object key) {
-        return opt(key, MapOptGet.class);
-    }
-
-    public @Nullable MapOptGet optMapOptGet(final @NotNull Object key, MapOptGet defaultValue) {
-        return opt(key, MapOptGet.class, defaultValue);
-    }
-
-    public @NotNull MapOptGet getMapOptGet(final @NotNull Object key) {
-        return get(key, MapOptGet.class);
-    }
-
 
     // GENERATED-END:SIMPLE-SHORTCUTS
 
@@ -378,9 +364,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return value;
     }
 
-    // GENERATED-BEGIN:LIST-SHORTCUTS
-
-
+    // GENERATED-BEGIN:LIST-SHORTCUTS
     public @Nullable List<String> optListString(final @NotNull Object key) {
         return optList(key, String.class);
     }
@@ -445,14 +429,6 @@ public abstract class OptGet implements Map<Object, Object> {
         return getList(key, OptGet.class);
     }
 
-    public @Nullable List<MapOptGet> optListMapOptGet(final @NotNull Object key) {
-        return optList(key, MapOptGet.class);
-    }
-
-    public @NotNull List<MapOptGet> getListMapOptGet(final @NotNull Object key) {
-        return getList(key, MapOptGet.class);
-    }
-
 
     // GENERATED-END:LIST-SHORTCUTS
 
@@ -492,9 +468,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return mapCasted;
     }
 
-    // GENERATED-BEGIN:MAP-SHORTCUTS
-
-
+    // GENERATED-BEGIN:MAP-SHORTCUTS
     public @Nullable Map<String, String> optMapStringString(final @NotNull Object key) {
         return optMap(key, String.class, String.class);
     }
@@ -557,14 +531,6 @@ public abstract class OptGet implements Map<Object, Object> {
 
     public @NotNull Map<String, OptGet> getMapStringOptGet(final @NotNull Object key) {
         return getMap(key, String.class, OptGet.class);
-    }
-
-    public @Nullable Map<String, MapOptGet> optMapStringMapOptGet(final @NotNull Object key) {
-        return optMap(key, String.class, MapOptGet.class);
-    }
-
-    public @NotNull Map<String, MapOptGet> getMapStringMapOptGet(final @NotNull Object key) {
-        return getMap(key, String.class, MapOptGet.class);
     }
 
     public @Nullable Map<Integer, String> optMapIntegerString(final @NotNull Object key) {
@@ -631,14 +597,6 @@ public abstract class OptGet implements Map<Object, Object> {
         return getMap(key, Integer.class, OptGet.class);
     }
 
-    public @Nullable Map<Integer, MapOptGet> optMapIntegerMapOptGet(final @NotNull Object key) {
-        return optMap(key, Integer.class, MapOptGet.class);
-    }
-
-    public @NotNull Map<Integer, MapOptGet> getMapIntegerMapOptGet(final @NotNull Object key) {
-        return getMap(key, Integer.class, MapOptGet.class);
-    }
-
     public @Nullable Map<Long, String> optMapLongString(final @NotNull Object key) {
         return optMap(key, Long.class, String.class);
     }
@@ -701,14 +659,6 @@ public abstract class OptGet implements Map<Object, Object> {
 
     public @NotNull Map<Long, OptGet> getMapLongOptGet(final @NotNull Object key) {
         return getMap(key, Long.class, OptGet.class);
-    }
-
-    public @Nullable Map<Long, MapOptGet> optMapLongMapOptGet(final @NotNull Object key) {
-        return optMap(key, Long.class, MapOptGet.class);
-    }
-
-    public @NotNull Map<Long, MapOptGet> getMapLongMapOptGet(final @NotNull Object key) {
-        return getMap(key, Long.class, MapOptGet.class);
     }
 
     public @Nullable Map<Float, String> optMapFloatString(final @NotNull Object key) {
@@ -775,14 +725,6 @@ public abstract class OptGet implements Map<Object, Object> {
         return getMap(key, Float.class, OptGet.class);
     }
 
-    public @Nullable Map<Float, MapOptGet> optMapFloatMapOptGet(final @NotNull Object key) {
-        return optMap(key, Float.class, MapOptGet.class);
-    }
-
-    public @NotNull Map<Float, MapOptGet> getMapFloatMapOptGet(final @NotNull Object key) {
-        return getMap(key, Float.class, MapOptGet.class);
-    }
-
     public @Nullable Map<Double, String> optMapDoubleString(final @NotNull Object key) {
         return optMap(key, Double.class, String.class);
     }
@@ -845,14 +787,6 @@ public abstract class OptGet implements Map<Object, Object> {
 
     public @NotNull Map<Double, OptGet> getMapDoubleOptGet(final @NotNull Object key) {
         return getMap(key, Double.class, OptGet.class);
-    }
-
-    public @Nullable Map<Double, MapOptGet> optMapDoubleMapOptGet(final @NotNull Object key) {
-        return optMap(key, Double.class, MapOptGet.class);
-    }
-
-    public @NotNull Map<Double, MapOptGet> getMapDoubleMapOptGet(final @NotNull Object key) {
-        return getMap(key, Double.class, MapOptGet.class);
     }
 
 

@@ -123,7 +123,7 @@ public class GetOptTests extends AbstractTests {
         assert map3.getString(1).equals("one");
 
 
-        MapOptGet map4 = optget.getMapOptGet("a");
+        OptGet map4 = optget.getOptGet("a");
         assert map4.getString(1).equals("one");
     }
 
