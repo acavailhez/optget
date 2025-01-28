@@ -54,19 +54,19 @@ public class GenerateOptGetCode {
             String name = classToCast.getSimpleName();
 
             // Generate "optString(key)" method
-            simpleShortcuts += TAB + "public " + name + " opt" + name + "(Object key) {" + BR;
+            simpleShortcuts += TAB + "public @Nullable " + name + " opt" + name + "(final @NotNull Object key) {" + BR;
             simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "optString(key, default)" method
-            simpleShortcuts += TAB + "public " + name + " opt" + name + "(Object key, " + name + " defaultValue) {" + BR;
+            simpleShortcuts += TAB + "public @Nullable " + name + " opt" + name + "(final @NotNull Object key, " + name + " defaultValue) {" + BR;
             simpleShortcuts += TAB + TAB + "return opt(key, " + name + ".class, defaultValue);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
 
             // Generate "getString(key)" method
-            simpleShortcuts += TAB + "public " + name + " get" + name + "(Object key) {" + BR;
+            simpleShortcuts += TAB + "public @NotNull " + name + " get" + name + "(final @NotNull Object key) {" + BR;
             simpleShortcuts += TAB + TAB + "return get(key, " + name + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;
@@ -80,13 +80,13 @@ public class GenerateOptGetCode {
             String name = classToCast.getSimpleName();
 
             // Generate "optListString(key)" method
-            listShortcuts += TAB + "public List<" + name + "> optList" + name + "(Object key) {" + BR;
+            listShortcuts += TAB + "public @Nullable List<" + name + "> optList" + name + "(final @NotNull Object key) {" + BR;
             listShortcuts += TAB + TAB + "return optList(key, " + name + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
 
             // Generate "getListString(key)" method
-            listShortcuts += TAB + "public List<" + name + "> getList" + name + "(Object key) {" + BR;
+            listShortcuts += TAB + "public @NotNull List<" + name + "> getList" + name + "(final @NotNull Object key) {" + BR;
             listShortcuts += TAB + TAB + "return getList(key, " + name + ".class);" + BR;
             listShortcuts += TAB + "}" + BR;
             listShortcuts += BR;
@@ -101,13 +101,13 @@ public class GenerateOptGetCode {
                 String value = valueToCast.getSimpleName();
 
                 // Generate "optMapStringObject(key)" method
-                mapShortcuts += TAB + "public Map<" + key + ", " + value + "> optMap" + key + value + "(Object key) {" + BR;
+                mapShortcuts += TAB + "public @Nullable Map<" + key + ", " + value + "> optMap" + key + value + "(final @NotNull Object key) {" + BR;
                 mapShortcuts += TAB + TAB + "return optMap(key, " + key + ".class, " + value + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
 
                 // Generate "getMapStringObject(key)" method
-                mapShortcuts += TAB + "public Map<" + key + ", " + value + "> getMap" + key + value + "(Object key) {" + BR;
+                mapShortcuts += TAB + "public @NotNull Map<" + key + ", " + value + "> getMap" + key + value + "(final @NotNull Object key) {" + BR;
                 mapShortcuts += TAB + TAB + "return getMap(key, " + key + ".class, " + value + ".class);" + BR;
                 mapShortcuts += TAB + "}" + BR;
                 mapShortcuts += BR;
@@ -138,6 +138,7 @@ public class GenerateOptGetCode {
         int end = source.substring(0, endAlias).lastIndexOf("\n");
 
         source = source.substring(0, begin) +
+                BR +
                 generated +
                 source.substring(end);
         return source;
