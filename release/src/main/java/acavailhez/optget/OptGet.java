@@ -1,5 +1,8 @@
 package acavailhez.optget;
 
+import acavailhez.optget.casts.AbstractCast;
+import acavailhez.optget.casts.CastMode;
+import acavailhez.optget.casts.IntegerCast;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +12,15 @@ import java.util.*;
 // and exposes many shortcut functions to cast objects in desirable formats
 public abstract class OptGet {
 
+    @SuppressWarnings("rawtypes")
+    private final Map<Class, AbstractCast> castors = new HashMap<>();
+    private CastMode castMode;
+
+    // init
+    protected OptGet() {
+        addCast(new IntegerCast());
+    }
+
     // #####################
     //  Functions to override
     // #####################
@@ -16,19 +28,19 @@ public abstract class OptGet {
     // The main function to override
     // Lookup an object for a simple key (ie "location" instead of "location.latitude")
     // Can return null
-    protected abstract @Nullable Object optToOverride(@NotNull String key);
+    protected abstract @Nullable Object optToOverride(final @NotNull String key);
 
     // What to do when a key is missing
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
-    protected <T> void onMissingKey(@NotNull String key, @NotNull Class<T> classToCast) {
+    protected <T> void onMissingKey(final @NotNull String key, final @NotNull Class<T> classToCast) {
         throw new IllegalArgumentException("Missing key:" + key + " of class:" + classToCast.getName());
     }
 
     // What to do when a key exists, but the value is missing
     // Typically, throw an IllegalArgumentException
     // but your application might need something else
-    protected <T> void onNullValue(@NotNull String key, @NotNull Class<T> classToCast) {
+    protected <T> void onNullValue(final @NotNull String key, final @NotNull Class<T> classToCast) {
         throw new IllegalArgumentException("Key:" + key + " of class:" + classToCast.getName() + " has null value");
     }
 
@@ -37,37 +49,45 @@ public abstract class OptGet {
     // #####################
 
     // Simplest opt
-   public @Nullable Object opt(@NotNull Object key) {
+    public @Nullable Object opt(final @NotNull Object key) {
         return privateOpt(key, Object.class, null);
     }
 
     // opt with a cast
-    public  <T> @Nullable T opt(@NotNull Object key, @NotNull Class<T> classToCast) {
+    public <T> @Nullable T opt(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         return privateOpt(key, classToCast, null);
     }
 
     // opt with a default value
-    public  @Nullable Object opt(@NotNull Object key, @NotNull Object defaultValue) {
+    public @Nullable Object opt(final @NotNull Object key, final @NotNull Object defaultValue) {
         return privateOpt(key, Object.class, defaultValue);
     }
 
     // opt with a cast and a default value
-    public  <T> @NotNull T opt(@NotNull Object key, @NotNull Class<T> classToCast, @NotNull T defaultValue) {
+    public <T> @NotNull T opt(final @NotNull Object key, final @NotNull Class<T> classToCast, @NotNull T defaultValue) {
         return Objects.requireNonNull(privateOpt(key, classToCast, defaultValue));
     }
 
     // simplest get
-    public  @NotNull Object get(@NotNull Object key) {
+    public @NotNull Object get(final @NotNull Object key) {
         return get(key, Object.class);
     }
 
     // get with a cast
-    public  <T> @NotNull T get(@NotNull Object key, @NotNull Class<T> classToCast) {
+    public <T> @NotNull T get(final @NotNull Object key, final @NotNull Class<T> classToCast) {
         T value = opt(key, classToCast);
         if (value == null) {
             onNullValue(key.toString(), classToCast);
         }
-        return value;
+        return Objects.requireNonNull(value);
+    }
+
+    public void setCastMode(final @NotNull CastMode castMode) {
+        this.castMode = castMode;
+    }
+
+    public <T> void addCast(final @NotNull AbstractCast<T> cast) {
+        castors.put(cast.getCastClass(), cast);
     }
 
     // #####################
@@ -88,7 +108,7 @@ public abstract class OptGet {
 
     // Will transform getString("key.sub") to getGetOpt("key").getString("sub")
     // when used in groovy, map.key.sub will then work
-   private @Nullable Object recursiveOpt(@NotNull Object key) {
+    private @Nullable Object recursiveOpt(@NotNull Object key) {
         // First attempt to get the value directly
         Object value = optToOverride(key.toString());
         if (value != null) {
@@ -107,6 +127,15 @@ public abstract class OptGet {
         return optGet.optToOverride(subkeys[subkeys.length - 1]);
     }
 
+    @SuppressWarnings("unchecked")
+    private <T> @NotNull T cast(final @NotNull Object unknown, final @NotNull Class<T> classToCast) {
+        if (castors.containsKey(classToCast)) {
+            return (T) castors.get(classToCast).cast(unknown, this.castMode);
+        } else {
+            return CastUtils.cast(unknown, classToCast);
+        }
+    }
+
 
     // #####################
     //  Shortcuts
@@ -114,7 +143,8 @@ public abstract class OptGet {
 
     // Simple shortcuts
 
-    // GENERATED-BEGIN:SIMPLE-SHORTCUTS    public String optString(Object key) {
+    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+    public String optString(Object key) {
         return opt(key, String.class);
     }
 
@@ -225,7 +255,7 @@ public abstract class OptGet {
 
     // GENERATED-END:SIMPLE-SHORTCUTS
 
-   public <ENUM extends Enum> ENUM optEnum(Object key, Class<ENUM> enumClass) {
+    public <ENUM extends Enum> ENUM optEnum(Object key, Class<ENUM> enumClass) {
         return opt(key, enumClass);
     }
 
@@ -239,11 +269,11 @@ public abstract class OptGet {
 
     // List shortcuts
 
-    public  List optList(Object key) {
+    public List optList(Object key) {
         return opt(key, List.class);
     }
 
-    public  List getList(Object key) {
+    public List getList(Object key) {
         return get(key, List.class);
     }
 
@@ -264,7 +294,8 @@ public abstract class OptGet {
         return value;
     }
 
-    // GENERATED-BEGIN:LIST-SHORTCUTS    public List<String> optListString(Object key) {
+    // GENERATED-BEGIN:LIST-SHORTCUTS
+    public List<String> optListString(Object key) {
         return optList(key, String.class);
     }
 
@@ -367,7 +398,7 @@ public abstract class OptGet {
         return mapCasted;
     }
 
-    public  <KEY, VALUE> Map<KEY, VALUE> getMap(Object key, Class<KEY> keyToCast, Class<VALUE> valueToCast) {
+    public <KEY, VALUE> Map<KEY, VALUE> getMap(Object key, Class<KEY> keyToCast, Class<VALUE> valueToCast) {
         Map<KEY, VALUE> mapCasted = optMap(key, keyToCast, valueToCast);
         if (mapCasted == null) {
             onNullValue(key.toString(), Map.class);
@@ -375,7 +406,8 @@ public abstract class OptGet {
         return mapCasted;
     }
 
-    // GENERATED-BEGIN:MAP-SHORTCUTS    public Map<String, String> optMapStringString(Object key) {
+    // GENERATED-BEGIN:MAP-SHORTCUTS
+    public Map<String, String> optMapStringString(Object key) {
         return optMap(key, String.class, String.class);
     }
 

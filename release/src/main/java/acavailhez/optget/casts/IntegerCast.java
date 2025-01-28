@@ -15,7 +15,7 @@ public class IntegerCast extends AbstractNumberCast<Integer> {
     }
 
     @Override
-    protected @NotNull Class<Integer> getCastClass() {
+    public @NotNull Class<Integer> getCastClass() {
         return Integer.class;
     }
 }

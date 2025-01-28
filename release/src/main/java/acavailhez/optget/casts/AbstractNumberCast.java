@@ -38,5 +38,4 @@ abstract class AbstractNumberCast<N extends Number> extends AbstractCast<N> {
 
     protected abstract @NotNull N valueFromString(String string);
 
-    protected abstract @NotNull Class<N> getCastClass();
 }
