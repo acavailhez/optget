@@ -206,14 +206,16 @@ public abstract class OptGet implements Map<Object, Object> {
         if (classToCast == Object.class) {
             return (T) unknown;
         }
-        if(classToCast.isAssignableFrom(unknown.getClass())) {
+        if (classToCast.isAssignableFrom(unknown.getClass())) {
             return (T) unknown;
+        }
+        if (classToCast.isEnum()) {
+            return (T) EnumCast.castToEnum(unknown, classToCast);
         }
         if (castors.containsKey(classToCast)) {
             return (T) castors.get(classToCast).cast(unknown, this.castMode);
-        } else {
-            return CastUtils.cast(unknown, classToCast);
         }
+        throw new IllegalArgumentException("No code to cast to class " + classToCast.getName());
     }
 
 
