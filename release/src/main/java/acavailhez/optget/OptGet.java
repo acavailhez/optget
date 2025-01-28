@@ -10,9 +10,12 @@ import java.util.*;
 // and exposes many shortcut functions to cast objects in desirable formats
 public abstract class OptGet {
 
+    // code used to cast Object to the desired class
     @SuppressWarnings("rawtypes")
     private final Map<Class, AbstractCast> castors = new HashMap<>();
-    private CastMode castMode;
+
+    // How strict we are when casting
+    private CastMode castMode = CastMode.CLEAN;
 
     // init
     protected OptGet() {
@@ -103,7 +106,7 @@ public abstract class OptGet {
             return defaultValue;
         }
         try {
-            return CastUtils.cast(nonCast, classToCast);
+            return cast(nonCast, classToCast);
         } catch (Throwable t) {
             throw new RuntimeException("Cannot read key " + key, t);
         }
@@ -284,7 +287,7 @@ public abstract class OptGet {
         List list = opt(key, List.class);
         List<T> listCasted = new LinkedList<T>();
         for (Object o : list) {
-            listCasted.add(CastUtils.cast(o, classToCast));
+            listCasted.add(cast(o, classToCast));
         }
         return listCasted;
     }
@@ -396,7 +399,7 @@ public abstract class OptGet {
         Map<KEY, VALUE> mapCasted = new HashMap<>();
         for (Object o : map.entrySet()) {
             Map.Entry entry = (Map.Entry) o;
-            mapCasted.put(CastUtils.cast(entry.getKey(), keyToCast), CastUtils.cast(entry.getValue(), valueToCast));
+            mapCasted.put(cast(entry.getKey(), keyToCast), cast(entry.getValue(), valueToCast));
         }
         return mapCasted;
     }
