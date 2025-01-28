@@ -13,6 +13,7 @@ public class CastTests extends AbstractTests {
         Assert.assertEquals(ONE, castor.cast(1));
         Assert.assertEquals(ONE, castor.cast("1"));
         Assert.assertEquals(ONE, castor.cast("   1"));
+        Assert.assertEquals(ONE, castor.cast(1L));
 
         Assert.assertEquals(ONE, castor.cast("1.0", CastMode.UNSAFE_BEST_EFFORT));
         Assert.assertEquals(ONE, castor.cast("1.9", CastMode.UNSAFE_BEST_EFFORT));

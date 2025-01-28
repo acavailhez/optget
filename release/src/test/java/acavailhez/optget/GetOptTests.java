@@ -127,22 +127,6 @@ public class GetOptTests extends AbstractTests {
         assert map4.getString(1).equals("one");
     }
 
-    @Test
-    public void cast() {
-
-        Assert.assertEquals("test", CastUtils.cast("test", String.class));
-        Assert.assertEquals("1", CastUtils.cast(1, String.class));
-
-        Assert.assertEquals(1, (int) CastUtils.cast(1, Integer.class));
-        Assert.assertEquals(1, (int) CastUtils.cast("1", Integer.class));
-        Assert.assertEquals(1, (int) CastUtils.cast(1L, Integer.class));
-
-        Assert.assertEquals(Bootstrap4Color.DANGER, CastUtils.cast(Bootstrap4Color.DANGER, Bootstrap4Color.class));
-        Assert.assertEquals(Bootstrap4Color.DANGER, CastUtils.cast("DANGER", Bootstrap4Color.class));
-        Assert.assertEquals(Bootstrap4Color.DANGER, CastUtils.cast("danger", Bootstrap4Color.class));
-
-    }
-
 
     @Test
     public void errorKeyNotFound() {
