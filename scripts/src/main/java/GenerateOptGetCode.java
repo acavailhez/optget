@@ -24,19 +24,20 @@ public class GenerateOptGetCode {
         log.info("Generating source code for OptGet");
 
         SHORTCUT_CLASSES.add(new CodeClass("String"));
-        SHORTCUT_CLASSES.add(new CodeClass("Byte"));
-        SHORTCUT_CLASSES.add(new CodeClass("Short"));
-        SHORTCUT_CLASSES.add(new CodeClass("Integer"));
-        SHORTCUT_CLASSES.add(new CodeClass("Integer", "Int"));
-        SHORTCUT_CLASSES.add(new CodeClass("Long"));
-        SHORTCUT_CLASSES.add(new CodeClass("Float"));
-        SHORTCUT_CLASSES.add(new CodeClass("Double"));
+        SHORTCUT_CLASSES.add(new CodeClass("Byte", "byte", "Byte"));
+        SHORTCUT_CLASSES.add(new CodeClass("Short", "short", "Short"));
+        SHORTCUT_CLASSES.add(new CodeClass("Integer", "int", "Integer"));
+        SHORTCUT_CLASSES.add(new CodeClass("Integer", "int", "Int"));
+        SHORTCUT_CLASSES.add(new CodeClass("Long", "long", "Long"));
+        SHORTCUT_CLASSES.add(new CodeClass("Float", "float", "Float"));
+        SHORTCUT_CLASSES.add(new CodeClass("Double", "double", "Double"));
         SHORTCUT_CLASSES.add(new CodeClass("OptGet"));
-        SHORTCUT_CLASSES.add(new CodeClass("Boolean"));
-        SHORTCUT_CLASSES.add(new CodeClass("Boolean", "Bool"));
+        SHORTCUT_CLASSES.add(new CodeClass("Boolean", "boolean", "Boolean"));
+        SHORTCUT_CLASSES.add(new CodeClass("Boolean", "boolean", "Bool"));
 
         MAP_KEY_CLASSES.add(new CodeClass("String"));
-        MAP_KEY_CLASSES.add(new CodeClass("Integer"));
+        MAP_KEY_CLASSES.add(new CodeClass("Integer", "int", "Integer"));
+        MAP_KEY_CLASSES.add(new CodeClass("Integer", "int", "Int"));
         MAP_KEY_CLASSES.add(new CodeClass("Long"));
         MAP_KEY_CLASSES.add(new CodeClass("Float"));
         MAP_KEY_CLASSES.add(new CodeClass("Double"));
@@ -49,6 +50,7 @@ public class GenerateOptGetCode {
         for (CodeClass classToCast : SHORTCUT_CLASSES) {
 
             String className = classToCast.className;
+            String primitiveName = classToCast.primitiveName;
             String alias = classToCast.alias;
 
             // Generate "optString(key)" method
@@ -64,7 +66,11 @@ public class GenerateOptGetCode {
             simpleShortcuts += BR;
 
             // Generate "getString(key)" method
-            simpleShortcuts += TAB + "public @NotNull " + className + " get" + alias + "(final @NotNull Object key) {" + BR;
+            if (primitiveName != null) {
+                simpleShortcuts += TAB + "public " + primitiveName + " get" + alias + "(final @NotNull Object key) {" + BR;
+            } else {
+                simpleShortcuts += TAB + "public @NotNull " + className + " get" + alias + "(final @NotNull Object key) {" + BR;
+            }
             simpleShortcuts += TAB + TAB + "return get(key, " + className + ".class);" + BR;
             simpleShortcuts += TAB + "}" + BR;
             simpleShortcuts += BR;

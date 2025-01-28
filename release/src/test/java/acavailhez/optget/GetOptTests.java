@@ -31,7 +31,7 @@ public class GetOptTests extends AbstractTests {
         MapOptGet map = new MapOptGet(json);
 
         assert map.get("a").equals(1.0d);
-        assert map.getInteger("a").equals(1);
+        assert map.getInteger("a") == 1;
         assert map.get("b").equals("string");
         assert map.get("c").equals(Locale.FRENCH);
         assert map.get("d.da").equals(1.0d);

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Set;
 
+// OptGet wrapper around a Map<?,?>
 public class MapOptGet extends OptGet {
 
     private final Map<?, ?> map;

@@ -1,9 +1,11 @@
 package acavailhez.optget.casts;
 
 import acavailhez.optget.OptGet;
+import acavailhez.optget.wraps.ListOptGet;
 import acavailhez.optget.wraps.MapOptGet;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 public class OptGetCast extends AbstractCast<OptGet> {
@@ -16,6 +18,9 @@ public class OptGetCast extends AbstractCast<OptGet> {
         }
         if (Map.class.isAssignableFrom(unknown.getClass())) {
             return new MapOptGet((Map) unknown);
+        }
+        if (List.class.isAssignableFrom(unknown.getClass())) {
+            return new ListOptGet((List) unknown);
         }
         throw new CastException(unknown, OptGet.class);
     }

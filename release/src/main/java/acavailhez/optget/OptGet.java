@@ -7,8 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// acavailhez.optget.OptGet wraps an object that only answers to a `public Object opt(Object key) throws Exception` method
+// OptGet wraps an object that can answer to a "get(Object key)"
 // and exposes many shortcut functions to cast objects in desirable formats
+// For example optGet.get("features.1.geometry") will search in a Map, a List, and another Map
 public abstract class OptGet implements Map<Object, Object> {
 
     // code used to cast Object to the desired class
@@ -223,7 +224,7 @@ public abstract class OptGet implements Map<Object, Object> {
 
     // Simple shortcuts
 
-    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
     public @Nullable String optString(final @NotNull Object key) {
         return opt(key, String.class);
     }
@@ -244,7 +245,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Byte.class, defaultValue);
     }
 
-    public @NotNull Byte getByte(final @NotNull Object key) {
+    public byte getByte(final @NotNull Object key) {
         return get(key, Byte.class);
     }
 
@@ -256,7 +257,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Short.class, defaultValue);
     }
 
-    public @NotNull Short getShort(final @NotNull Object key) {
+    public short getShort(final @NotNull Object key) {
         return get(key, Short.class);
     }
 
@@ -268,7 +269,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Integer.class, defaultValue);
     }
 
-    public @NotNull Integer getInteger(final @NotNull Object key) {
+    public int getInteger(final @NotNull Object key) {
         return get(key, Integer.class);
     }
 
@@ -280,7 +281,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Integer.class, defaultValue);
     }
 
-    public @NotNull Integer getInt(final @NotNull Object key) {
+    public int getInt(final @NotNull Object key) {
         return get(key, Integer.class);
     }
 
@@ -292,7 +293,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Long.class, defaultValue);
     }
 
-    public @NotNull Long getLong(final @NotNull Object key) {
+    public long getLong(final @NotNull Object key) {
         return get(key, Long.class);
     }
 
@@ -304,7 +305,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Float.class, defaultValue);
     }
 
-    public @NotNull Float getFloat(final @NotNull Object key) {
+    public float getFloat(final @NotNull Object key) {
         return get(key, Float.class);
     }
 
@@ -316,7 +317,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Double.class, defaultValue);
     }
 
-    public @NotNull Double getDouble(final @NotNull Object key) {
+    public double getDouble(final @NotNull Object key) {
         return get(key, Double.class);
     }
 
@@ -340,7 +341,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Boolean.class, defaultValue);
     }
 
-    public @NotNull Boolean getBoolean(final @NotNull Object key) {
+    public boolean getBoolean(final @NotNull Object key) {
         return get(key, Boolean.class);
     }
 
@@ -352,7 +353,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return opt(key, Boolean.class, defaultValue);
     }
 
-    public @NotNull Boolean getBool(final @NotNull Object key) {
+    public boolean getBool(final @NotNull Object key) {
         return get(key, Boolean.class);
     }
 
@@ -407,7 +408,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return value;
     }
 
-    // GENERATED-BEGIN:LIST-SHORTCUTS
+    // GENERATED-BEGIN:LIST-SHORTCUTS
     public @Nullable List<String> optListOfString(final @NotNull Object key) {
         return optList(key, String.class);
     }
@@ -543,7 +544,7 @@ public abstract class OptGet implements Map<Object, Object> {
         return Objects.requireNonNull(mapCasted);
     }
 
-    // GENERATED-BEGIN:MAP-SHORTCUTS
+    // GENERATED-BEGIN:MAP-SHORTCUTS
     public @Nullable Map<String, String> optMapOfStringToString(final @NotNull Object key) {
         return optMap(key, String.class, String.class);
     }
@@ -717,6 +718,94 @@ public abstract class OptGet implements Map<Object, Object> {
     }
 
     public @NotNull Map<Integer, Boolean> getMapOfIntegerToBool(final @NotNull Object key) {
+        return getMap(key, Integer.class, Boolean.class);
+    }
+
+    public @Nullable Map<Integer, String> optMapOfIntToString(final @NotNull Object key) {
+        return optMap(key, Integer.class, String.class);
+    }
+
+    public @NotNull Map<Integer, String> getMapOfIntToString(final @NotNull Object key) {
+        return getMap(key, Integer.class, String.class);
+    }
+
+    public @Nullable Map<Integer, Byte> optMapOfIntToByte(final @NotNull Object key) {
+        return optMap(key, Integer.class, Byte.class);
+    }
+
+    public @NotNull Map<Integer, Byte> getMapOfIntToByte(final @NotNull Object key) {
+        return getMap(key, Integer.class, Byte.class);
+    }
+
+    public @Nullable Map<Integer, Short> optMapOfIntToShort(final @NotNull Object key) {
+        return optMap(key, Integer.class, Short.class);
+    }
+
+    public @NotNull Map<Integer, Short> getMapOfIntToShort(final @NotNull Object key) {
+        return getMap(key, Integer.class, Short.class);
+    }
+
+    public @Nullable Map<Integer, Integer> optMapOfIntToInteger(final @NotNull Object key) {
+        return optMap(key, Integer.class, Integer.class);
+    }
+
+    public @NotNull Map<Integer, Integer> getMapOfIntToInteger(final @NotNull Object key) {
+        return getMap(key, Integer.class, Integer.class);
+    }
+
+    public @Nullable Map<Integer, Integer> optMapOfIntToInt(final @NotNull Object key) {
+        return optMap(key, Integer.class, Integer.class);
+    }
+
+    public @NotNull Map<Integer, Integer> getMapOfIntToInt(final @NotNull Object key) {
+        return getMap(key, Integer.class, Integer.class);
+    }
+
+    public @Nullable Map<Integer, Long> optMapOfIntToLong(final @NotNull Object key) {
+        return optMap(key, Integer.class, Long.class);
+    }
+
+    public @NotNull Map<Integer, Long> getMapOfIntToLong(final @NotNull Object key) {
+        return getMap(key, Integer.class, Long.class);
+    }
+
+    public @Nullable Map<Integer, Float> optMapOfIntToFloat(final @NotNull Object key) {
+        return optMap(key, Integer.class, Float.class);
+    }
+
+    public @NotNull Map<Integer, Float> getMapOfIntToFloat(final @NotNull Object key) {
+        return getMap(key, Integer.class, Float.class);
+    }
+
+    public @Nullable Map<Integer, Double> optMapOfIntToDouble(final @NotNull Object key) {
+        return optMap(key, Integer.class, Double.class);
+    }
+
+    public @NotNull Map<Integer, Double> getMapOfIntToDouble(final @NotNull Object key) {
+        return getMap(key, Integer.class, Double.class);
+    }
+
+    public @Nullable Map<Integer, OptGet> optMapOfIntToOptGet(final @NotNull Object key) {
+        return optMap(key, Integer.class, OptGet.class);
+    }
+
+    public @NotNull Map<Integer, OptGet> getMapOfIntToOptGet(final @NotNull Object key) {
+        return getMap(key, Integer.class, OptGet.class);
+    }
+
+    public @Nullable Map<Integer, Boolean> optMapOfIntToBoolean(final @NotNull Object key) {
+        return optMap(key, Integer.class, Boolean.class);
+    }
+
+    public @NotNull Map<Integer, Boolean> getMapOfIntToBoolean(final @NotNull Object key) {
+        return getMap(key, Integer.class, Boolean.class);
+    }
+
+    public @Nullable Map<Integer, Boolean> optMapOfIntToBool(final @NotNull Object key) {
+        return optMap(key, Integer.class, Boolean.class);
+    }
+
+    public @NotNull Map<Integer, Boolean> getMapOfIntToBool(final @NotNull Object key) {
         return getMap(key, Integer.class, Boolean.class);
     }
 
