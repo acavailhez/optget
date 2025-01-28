@@ -31,6 +31,10 @@ public abstract class OptGet implements Map<Object, Object> {
         addCast(new OptGetCast());
     }
 
+    public static OptGet wrap(Object object) {
+        return new OptGetCast().cast(object);
+    }
+
     // #####################
     //  Functions to override
     // #####################
@@ -97,24 +101,20 @@ public abstract class OptGet implements Map<Object, Object> {
 
     // SETTERS ---
 
-    @Override
-    public Object put(final @NotNull Object key, final @Nullable Object value) {
-        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
-    }
-
-    @Override
-    public Object remove(final @NotNull Object key) {
-        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
-    }
+    // Must implememt put and remove
 
     @Override
     public void putAll(final @NotNull Map<?, ?> m) {
-        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
+        for (Map.Entry<?, ?> entry : m.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
     public void clear() {
-        throw new RuntimeException("Can't modify OptGet, use a MutableOptGet");
+        for (Object key : keySet()) {
+            remove(key);
+        }
     }
 
     // #####################
@@ -224,7 +224,9 @@ public abstract class OptGet implements Map<Object, Object> {
 
     // Simple shortcuts
 
-    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+    // GENERATED-BEGIN:SIMPLE-SHORTCUTS
+
+
     public @Nullable String optString(final @NotNull Object key) {
         return opt(key, String.class);
     }
@@ -408,7 +410,9 @@ public abstract class OptGet implements Map<Object, Object> {
         return value;
     }
 
-    // GENERATED-BEGIN:LIST-SHORTCUTS
+    // GENERATED-BEGIN:LIST-SHORTCUTS
+
+
     public @Nullable List<String> optListOfString(final @NotNull Object key) {
         return optList(key, String.class);
     }
@@ -544,7 +548,9 @@ public abstract class OptGet implements Map<Object, Object> {
         return Objects.requireNonNull(mapCasted);
     }
 
-    // GENERATED-BEGIN:MAP-SHORTCUTS
+    // GENERATED-BEGIN:MAP-SHORTCUTS
+
+
     public @Nullable Map<String, String> optMapOfStringToString(final @NotNull Object key) {
         return optMap(key, String.class, String.class);
     }

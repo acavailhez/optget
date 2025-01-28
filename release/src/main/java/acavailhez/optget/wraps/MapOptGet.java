@@ -10,15 +10,25 @@ import java.util.Set;
 // OptGet wrapper around a Map<?,?>
 public class MapOptGet extends OptGet {
 
-    private final Map<?, ?> map;
+    private final Map<Object, Object> map;
 
-    public MapOptGet(@NotNull final Map<?, ?> map) {
-        this.map = map;
+    public MapOptGet(final Map<?, ?> map) {
+        this.map = (Map<Object, Object>) map;
     }
 
     @Override
     protected @Nullable Object optToOverride(@NotNull Object key) {
         return map.get(key);
+    }
+
+    @Override
+    public @Nullable Object put(Object key, Object value) {
+        return map.put(key, value);
+    }
+
+    @Override
+    public Object remove(Object key) {
+        return map.remove(key);
     }
 
     @Override

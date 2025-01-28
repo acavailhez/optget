@@ -13,10 +13,10 @@ import java.util.Set;
 // OptGet wrapper around a List<?>
 public class ListOptGet extends OptGet {
 
-    private final List<?> list;
+    private final List<Object> list;
     private final static IntegerCast castor = new IntegerCast();
 
-    public ListOptGet(@NotNull final List<?> list) {
+    public ListOptGet(@NotNull final List<Object> list) {
         this.list = list;
     }
 
@@ -24,6 +24,18 @@ public class ListOptGet extends OptGet {
     protected @Nullable Object optToOverride(@NotNull Object key) {
         Integer index = castor.cast(key, CastMode.CLEAN);
         return list.get(index);
+    }
+
+    @Override
+    public @Nullable Object put(Object key, Object value) {
+        Integer index = castor.cast(key, CastMode.CLEAN);
+        return list.set(index, value);
+    }
+
+    @Override
+    public Object remove(Object key) {
+        Integer index = castor.cast(key, CastMode.CLEAN);
+        return list.remove(index);
     }
 
     @Override

@@ -51,6 +51,16 @@ public class ObjectWrapperOptGet extends OptGet {
     }
 
     @Override
+    public @Nullable Object put(Object key, Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object remove(Object key) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public @NotNull Set<Object> keySet() {
         return Set.of();
     }
