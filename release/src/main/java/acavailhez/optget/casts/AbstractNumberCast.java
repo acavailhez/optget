@@ -18,12 +18,12 @@ abstract class AbstractNumberCast<N extends Number> extends AbstractCast<N> {
         if (unknown instanceof String) {
             try {
                 if (mode == CastMode.UNSAFE_BEST_EFFORT) {
-                    String cleaned = ((String) unknown).replaceAll("[^0-9.-e]", "");
+                    String cleaned = ((String) unknown).replaceAll("[^0-9.e-]", "");
                     Number number = Double.parseDouble(cleaned);
                     return valueFromNumber(number);
                 }
                 if (mode == CastMode.CLEAN) {
-                    String cleaned = ((String) unknown).replaceAll("[^0-9.-e]", "");
+                    String cleaned = ((String) unknown).replaceAll("[^0-9.e-]", "");
                     return valueFromString(cleaned);
                 }
                 return valueFromString((String) unknown);

@@ -15,6 +15,9 @@ public class CastTests extends AbstractTests {
         Assert.assertEquals(ONE, castor.cast("   1"));
         Assert.assertEquals(ONE, castor.cast(1L));
 
+        Integer MINUS_ONE = Integer.valueOf(-1);
+        Assert.assertEquals(MINUS_ONE, castor.cast("-1"));
+
         Assert.assertEquals(ONE, castor.cast("1.0", CastMode.UNSAFE_BEST_EFFORT));
         Assert.assertEquals(ONE, castor.cast("1.9", CastMode.UNSAFE_BEST_EFFORT));
     }
