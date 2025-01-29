@@ -172,11 +172,7 @@ public abstract class OptGet implements Map<Object, Object> {
         if (nonCast == null) {
             return defaultValue;
         }
-        try {
-            return cast(nonCast, classToCast);
-        } catch (Throwable t) {
-            throw new RuntimeException("Cannot read key " + key, t);
-        }
+        return cast(nonCast, classToCast);
     }
 
     // Will transform getString("key.sub") to getGetOpt("key").getString("sub")
