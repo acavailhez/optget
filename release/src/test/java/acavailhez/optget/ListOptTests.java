@@ -33,4 +33,20 @@ public class ListOptTests extends AbstractTests {
         Assert.assertEquals("j", map.get("a.5.2"));
     }
 
+    @Test
+    public void testSubOptGet() throws Exception {
+        Map json = new Gson().fromJson("""
+                {
+                    a: [
+                      {b:{c:1}},
+                      {d:{e:2}}
+                    ]
+                }
+                """, Map.class);
+
+        MapOptGet map = new MapOptGet(json);
+
+        Assert.assertEquals(1, map.getListOfOptGet("a").get(0).getInt("b.c"));
+    }
+
 }

@@ -393,7 +393,8 @@ public abstract class OptGet implements Map<Object, Object> {
             return null;
         }
         for (Object o : list) {
-            listCasted.add(cast(o, classToCast));
+            T casted = cast(o, classToCast);
+            listCasted.add(casted);
         }
         return listCasted;
     }
